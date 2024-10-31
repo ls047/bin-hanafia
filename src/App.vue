@@ -1,6 +1,5 @@
 <template>
   <div class="font-roboto">
-    <Navbar />
     <router-view />
   </div>
 </template>
