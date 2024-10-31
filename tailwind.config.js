@@ -6,6 +6,10 @@ export default {
   ],
   theme: {
     extend: {
+      container: {
+        center: true,
+        padding: '1rem',
+      },
       colors: {
         'primary': '#EC8A20',    // Orange
         'secondary': '#C98142',  // Brown/Orange
