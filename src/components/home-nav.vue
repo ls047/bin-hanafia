@@ -1,8 +1,8 @@
 <template>
-  <header class="top-0 z-50 bg-light w-full font-roboto text-2xl font-bold">
+  <header class="top-0 z-50 w-full font-roboto text-2xl font-bold">
     <div class="flex items-center justify-between px-6">
       <img
-        src="../assets/logo-color.png"
+        src="../assets/logo.png"
         alt="Logo"
         class="mt-4 w-16 md:mt-2 md:w-24"
       />
@@ -10,7 +10,7 @@
         <li>
           <button
             @click="navigateTo('/')"
-            class="rounded-md px-4 py-2 font-bold text-black transition-all duration-300 ease-in-out hover:bg-primary hover:bg-opacity-30 hover:backdrop-blur-sm"
+            class="rounded-md px-4 py-2 font-bold text-light transition-all duration-300 ease-in-out hover:bg-white/30 hover:backdrop-blur-sm"
           >
             الصفحة الرئيسية
           </button>
@@ -18,7 +18,7 @@
         <li>
           <button
             @click="navigateTo('/about')"
-            class="rounded-md px-4 py-2 font-bold text-black transition-all duration-300 ease-in-out hover:bg-primary hover:bg-opacity-30 hover:backdrop-blur-sm"
+            class="rounded-md px-4 py-2 font-bold text-light transition-all duration-300 ease-in-out hover:bg-white/30 hover:backdrop-blur-sm"
           >
             عنا
           </button>
@@ -26,7 +26,7 @@
         <li>
           <button
             @click="navigateTo('/teachers')"
-            class="rounded-md px-4 py-2 font-bold text-black transition-all duration-300 ease-in-out hover:bg-primary hover:bg-opacity-30 hover:backdrop-blur-sm"
+            class="rounded-md px-4 py-2 font-bold text-light transition-all duration-300 ease-in-out hover:bg-white/30 hover:backdrop-blur-sm"
           >
             المدرسين
           </button>
@@ -34,7 +34,7 @@
         <li>
           <button
             @click="navigateTo('/special-students')"
-            class="rounded-md px-4 py-2 font-bold text-black transition-all duration-300 ease-in-out hover:bg-primary hover:bg-opacity-30 hover:backdrop-blur-sm"
+            class="rounded-md px-4 py-2 font-bold text-light transition-all duration-300 ease-in-out hover:bg-white/30 hover:backdrop-blur-sm"
           >
             الطلاب المتميزين
           </button>
