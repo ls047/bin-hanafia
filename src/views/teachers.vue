@@ -30,8 +30,8 @@
             'rounded-l-[168px] pr-6': index % 3 === 2,
           },
           teacher.role === 'مدير' ? '-mt-36' : '',
-          teacher.role === 'معاون' && index % 3 === 0 ? 'translate-x-24 translate-y-12' : '',
-          teacher.role === 'معاون' && index % 3 === 2 ? '-translate-x-24 translate-y-12' : '',
+          teacher.role === 'معاون' && index % 3 === 0 ? 'translate-x-32 translate-y-12' : '',
+          teacher.role === 'معاون' && index % 3 === 2 ? '-translate-x-32 translate-y-12' : '',
         ]"
       >
         <div class="h-full w-full">
