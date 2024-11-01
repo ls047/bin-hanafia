@@ -25,52 +25,63 @@
         <div
           v-for="(student, index) in sortedStudents"
           :key="student.id"
-          class="relative w-[80%] h-[35rem] bg-[#F0D4A9]" :class="{
-            'rounded-tl-[168px] rounded-br-3xl': index % 2 === 0,
+          class="relative h-[40rem] w-[80%] bg-[#F0D4A9]"
+          :class="{
+            'rounded-br-3xl rounded-tl-[168px]': index % 2 === 0,
             'rounded-br-[168px] rounded-tl-3xl': index % 2 !== 0,
-            
           }"
         >
-          <div class="bg-secondary w-1/2 rounded-3xl mx-auto mt-[10%]">
-            <p class="text-light text-center text-3xl font-bold py-2">
+          <div class="mx-auto mt-[10%] w-1/2 rounded-3xl bg-secondary">
+            <p class="py-2 text-center text-3xl font-bold text-light">
               {{ student.grade }}
             </p>
           </div>
-          <div class="w-full mx-auto h-full grid grid-cols-2 gap-4 p-4 place-items-center">
-            <div class="relative flex justify-center w-full">
-              <img :src="student.image" :alt="student.name" class="w-[90%] -translate-y-16 h-[22rem] object-cover rounded-t-full shadow-lg" />
-              <div class="absolute bottom-[2rem] left-1/2 -translate-x-1/2 w-[90%] bg-secondary p-2 rounded-t-3xl">
-                <p class="text-2xl font-bold text-light text-center">
-                  {{ sortedStudents.indexOf(student) + 1 }}
+          <div
+            class="mx-auto grid h-full w-full -translate-y-12 grid-cols-2 place-items-center gap-4 p-4"
+          >
+            <div class="relative flex w-full  justify-center">
+              <img
+                :src="student.image"
+                :alt="student.name"
+                class="h-[22rem] w-[90%] -translate-y-16 rounded-t-full object-cover shadow-lg"
+              />
+              <div
+                class="absolute bottom-[2rem] left-1/2 w-[90%] -translate-x-1/2 rounded-t-3xl bg-secondary p-4"
+              >
+                <p class="text-center text-xl font-bold text-light">
+                  {{ student.fullname }}
                 </p>
-                <p class="text-xl font-bold text-light text-center">
+                <p class="text-center text-basefont-bold text-light">
                   {{ student.name }}
-                </p>
-                <p class="text-2xl font-bold text-light text-center">
-                  {{ student.average }}%
                 </p>
               </div>
             </div>
-            <div class="relative flex justify-center w-full">
-              <img :src="student.image" :alt="student.name" class="w-[90%] -translate-y-16 h-[22rem] object-cover rounded-t-full shadow-lg" />
-              <div class="absolute bottom-[2rem] left-1/2 -translate-x-1/2 w-[90%] bg-secondary p-2 rounded-t-3xl">
-                <p class="text-2xl font-bold text-light text-center">
-                  {{ sortedStudents.indexOf(student) + 1 }}
+            <div class="relative flex w-full justify-center">
+              <img
+                :src="student.image"
+                :alt="student.name"
+                class="h-[22rem] w-[90%] -translate-y-16 rounded-t-full object-cover shadow-lg"
+              />
+              <div
+                class="absolute bottom-[2rem] left-1/2 w-[90%] -translate-x-1/2 rounded-t-3xl bg-secondary p-4"
+              >
+              <p class="text-center text-xl font-bold text-light">
+                  {{ student.fullname }}
                 </p>
-                <p class="text-xl font-bold text-light text-center">
+                <p class="text-center text-base font-bold text-light">
                   {{ student.name }}
-                </p>
-                <p class="text-2xl font-bold text-light text-center">
-                  {{ student.average }}%
                 </p>
               </div>
             </div>
           </div>
-          <div class="absolute" :class="{
-            'bottom-[-2rem] -left-10': index % 2 === 0,
-            'top-[-2rem] -right-10': index % 2 !== 0,
-          }">
-            <img src="/src/assets/Star.png" alt="star" class="w-20"/>
+          <div
+            class="absolute"
+            :class="{
+              '-left-10 bottom-[-2rem]': index % 2 === 0,
+              '-right-10 top-[-2rem]': index % 2 !== 0,
+            }"
+          >
+            <img src="/src/assets/Star.png" alt="star" class="w-20" />
           </div>
         </div>
       </div>
@@ -85,6 +96,7 @@ const students = ref([
   {
     id: 1,
     name: "طالب نموذجي",
+    fullname: "محمد عبد الله",
     grade: "السادس أبتدائي - شعبة ب",
     image: "/src/assets/student.jpg",
     average: 95,
@@ -92,6 +104,7 @@ const students = ref([
   {
     id: 1,
     name: "طالب نموذجي",
+    fullname: "زينب عبد الله",
     grade: "السادس أبتدائي - شعبة أ",
     image: "/src/assets/student.jpg",
     average: 95,
@@ -99,35 +112,64 @@ const students = ref([
   {
     id: 1,
     name: "طالب نموذجي",
-    grade: "الصف الأول",
+    fullname: "زينب عبد الله",
+    grade: "السادس أبتدائي - شعبة أ",
     image: "/src/assets/student.jpg",
     average: 95,
   },
   {
     id: 1,
     name: "طالب نموذجي",
-    grade: "الصف الأول",
+    fullname: "زينب عبد الله",
+    grade: "السادس أبتدائي - شعبة أ",
     image: "/src/assets/student.jpg",
     average: 95,
   },
   {
     id: 1,
     name: "طالب نموذجي",
-    grade: "الصف الأول",
+    fullname: "زينب عبد الله",
+    grade: "السادس أبتدائي - شعبة أ",
     image: "/src/assets/student.jpg",
     average: 95,
   },
   {
     id: 1,
     name: "طالب نموذجي",
-    grade: "الصف الأول",
+    fullname: "زينب عبد الله",
+    grade: "السادس أبتدائي - شعبة أ",
     image: "/src/assets/student.jpg",
     average: 95,
   },
   {
     id: 1,
     name: "طالب نموذجي",
-    grade: "الصف الأول",
+    fullname: "زينب عبد الله",
+    grade: "السادس أبتدائي - شعبة أ",
+    image: "/src/assets/student.jpg",
+    average: 95,
+  },
+  {
+    id: 1,
+    name: "طالب نموذجي",
+    fullname: "زينب عبد الله",
+    grade: "السادس أبتدائي - شعبة أ",
+    image: "/src/assets/student.jpg",
+    average: 95,
+  },
+  {
+    id: 1,
+    name: "طالب نموذجي",
+    fullname: "زينب عبد الله",
+    grade: "السادس أبتدائي - شعبة أ",
+    image: "/src/assets/student.jpg",
+    average: 95,
+  },
+  {
+    id: 1,
+    name: "طالب نموذجي",
+    fullname: "زينب عبد الله",
+    grade: "السادس أبتدائي - شعبة أ",
     image: "/src/assets/student.jpg",
     average: 95,
   },

@@ -1,5 +1,5 @@
 <template>
-  <header class="fixed top-0 w-full z-50 font-roboto font-bold text-2xl">
+  <header class="top-0 bg-[#EC8A20] w-full z-50 font-roboto font-bold text-2xl">
     <div class="flex justify-between items-center px-6">
       <img 
         src="../assets/logo.png" 
