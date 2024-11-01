@@ -8,10 +8,6 @@
         class="w-full h-full object-cover"
       >
     </div>
-
-    <!-- Header (moved inside the first section, above content) -->
-
-
     <!-- Content Section -->
     <div class="relative z-10 h-screen">
       <div class="absolute top-0 -left-[10%] w-full h-screen text-[#FEFAE1]">

@@ -14,12 +14,17 @@ export default {
         'primary': '#EC8A20',    // Orange
         'secondary': '#C98142',  // Brown/Orange
         'accent': '#38C5CA',     // Turquoise
-        'light': '#FEFAE1',      // Light Cream
+        'light': '#FEFAE1', 
+        'light-cream': '#F0D4A9',
       },
       fontFamily: {
         'sans': ['Roboto', 'sans-serif'],
         'roboto': ['Roboto', 'sans-serif'],
       },
+      screens: {
+        'xs': '475px',
+        'sm': { 'max': '639px' },
+      }
     },
   },
   plugins: [],

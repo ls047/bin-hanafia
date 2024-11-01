@@ -7,7 +7,6 @@
         class="absolute left-0 mb-12 w-[90%]"
       />
     </div>
-
     <div
       class="relative z-10 flex flex-col items-center justify-center px-4 pt-20 text-center"
     >
