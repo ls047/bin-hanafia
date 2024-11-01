@@ -1,67 +1,67 @@
 <template>
-  <header class="top-0 z-50 w-full font-roboto text-2xl font-bold">
-    <div class="flex items-center justify-between px-6">
-      <img
-        src="../assets/logo.png"
-        alt="Logo"
-        class="mt-4 w-16 md:mt-2 md:w-24"
+  <header class="fixed top-0 w-full z-50 font-roboto font-bold text-2xl">
+    <div class="flex justify-between items-center px-6">
+      <img 
+        src="../assets/logo.png" 
+        alt="Logo" 
+        class="w-16 md:w-24 mt-4 md:mt-2" 
       />
-      <ul class="hidden flex-row space-x-8 md:flex" dir="rtl">
+      <ul class="hidden md:flex flex-row space-x-8" dir="rtl">
         <li>
-          <button
-            @click="navigateTo('/')"
-            class="rounded-md px-4 py-2 font-bold text-light transition-all duration-300 ease-in-out hover:bg-white/30 hover:backdrop-blur-sm"
+          <button 
+            @click="navigateTo('/')" 
+            class="text-light hover:backdrop-blur-sm hover:bg-white/30 font-bold pl-8 transition-all duration-300 ease-in-out rounded-md px-4 py-2"
           >
             الصفحة الرئيسية
           </button>
         </li>
         <li>
-          <button
-            @click="navigateTo('/about')"
-            class="rounded-md px-4 py-2 font-bold text-light transition-all duration-300 ease-in-out hover:bg-white/30 hover:backdrop-blur-sm"
+          <button 
+            @click="navigateTo('/about')" 
+            class="text-light hover:backdrop-blur-sm hover:bg-white/30 font-bold transition-all duration-300 ease-in-out rounded-md px-4 py-2"
           >
             عنا
           </button>
         </li>
         <li>
-          <button
-            @click="navigateTo('/teachers')"
-            class="rounded-md px-4 py-2 font-bold text-light transition-all duration-300 ease-in-out hover:bg-white/30 hover:backdrop-blur-sm"
+          <button 
+            @click="navigateTo('/teachers')" 
+            class="text-light hover:backdrop-blur-sm hover:bg-white/30 font-bold transition-all duration-300 ease-in-out rounded-md px-4 py-2"
           >
             المدرسين
           </button>
         </li>
         <li>
-          <button
-            @click="navigateTo('/special-students')"
-            class="rounded-md px-4 py-2 font-bold text-light transition-all duration-300 ease-in-out hover:bg-white/30 hover:backdrop-blur-sm"
+          <button 
+            @click="navigateTo('/special-students')" 
+            class="text-light hover:backdrop-blur-sm hover:bg-white/30 font-bold transition-all duration-300 ease-in-out rounded-md px-4 py-2"
           >
             الطلاب المتميزين
           </button>
         </li>
       </ul>
-      <button
-        @click="toggleMenu"
-        class="rounded-md p-2 text-light transition-all duration-300 hover:bg-white/30 md:hidden"
+      <button 
+        @click="toggleMenu" 
+        class="md:hidden text-light p-2 hover:bg-white/30 rounded-md transition-all duration-300"
       >
-        <img
-          v-if="!isMenuOpen"
-          src="../assets/Group 47.svg"
-          alt="Menu"
+        <img 
+          v-if="!isMenuOpen" 
+          src="../assets/Group 47.svg" 
+          alt="Menu" 
           class="h-6 w-6"
         />
-        <svg
+        <svg 
           v-else
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6 text-white"
-          fill="none"
-          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg" 
+          class="h-6 w-6 text-white" 
+          fill="none" 
+          viewBox="0 0 24 24" 
           stroke="currentColor"
         >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
+          <path 
+            stroke-linecap="round" 
+            stroke-linejoin="round" 
+            stroke-width="2" 
             d="M6 18L18 6M6 6l12 12"
           />
         </svg>
@@ -74,43 +74,43 @@
         leave-from-class="opacity-100 transform scale-100"
         leave-to-class="opacity-0 transform scale-95"
       >
-        <div
-          v-if="isMenuOpen"
-          class="absolute right-0 top-full w-[50%] bg-white/80 backdrop-blur-md md:hidden"
+        <div 
+          v-if="isMenuOpen" 
+          class="absolute top-full right-0 w-[50%] bg-white/80 backdrop-blur-md md:hidden"
         >
-          <ul
-            v-if="isMenuOpen"
-            class="flex origin-top flex-col space-y-4 p-4"
+          <ul 
+            v-if="isMenuOpen" 
+            class="flex flex-col space-y-4 p-4 origin-top" 
             dir="rtl"
           >
             <li>
-              <button
-                @click="navigateTo('/')"
-                class="w-full rounded-md px-4 py-2 text-right font-bold text-light transition-all duration-300 ease-in-out hover:bg-white/30"
+              <button 
+                @click="navigateTo('/')" 
+                class="w-full text-right text-light hover:bg-white/30 font-bold transition-all duration-300 ease-in-out rounded-md px-4 py-2"
               >
                 الصفحة الرئيسية
               </button>
             </li>
             <li>
-              <button
-                @click="navigateTo('/about')"
-                class="w-full rounded-md px-4 py-2 text-right font-bold text-light transition-all duration-300 ease-in-out hover:bg-white/30"
+              <button 
+                @click="navigateTo('/about')" 
+                class="w-full text-right text-light hover:bg-white/30 font-bold transition-all duration-300 ease-in-out rounded-md px-4 py-2"
               >
                 عنا
               </button>
             </li>
             <li>
-              <button
-                @click="navigateTo('/teachers')"
-                class="w-full rounded-md px-4 py-2 text-right font-bold text-light transition-all duration-300 ease-in-out hover:bg-white/30"
+              <button 
+                @click="navigateTo('/teachers')" 
+                class="w-full text-right text-light hover:bg-white/30 font-bold transition-all duration-300 ease-in-out rounded-md px-4 py-2"
               >
                 المدرسين
               </button>
             </li>
             <li>
-              <button
-                @click="navigateTo('/special-students')"
-                class="w-full rounded-md px-4 py-2 text-right font-bold text-light transition-all duration-300 ease-in-out hover:bg-white/30"
+              <button 
+                @click="navigateTo('/special-students')" 
+                class="w-full text-right text-light hover:bg-white/30 font-bold transition-all duration-300 ease-in-out rounded-md px-4 py-2"
               >
                 الطلاب المتميزين
               </button>
@@ -123,20 +123,23 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { useRouter } from "vue-router";
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
-const router = useRouter();
-const isMenuOpen = ref(false);
+const router = useRouter()
+const isMenuOpen = ref(false)
 
 const navigateTo = (path) => {
-  router.push(path);
-  isMenuOpen.value = false;
-};
+  router.push(path)
+  isMenuOpen.value = false
+}
 
 const toggleMenu = () => {
-  isMenuOpen.value = !isMenuOpen.value;
-};
+  isMenuOpen.value = !isMenuOpen.value
+}
 </script>
 
-<style scoped></style>
+
+<style scoped>
+
+</style>
