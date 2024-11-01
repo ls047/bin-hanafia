@@ -1,5 +1,5 @@
 <template>
-  <div class="font-roboto">
+  <div class="font-roboto bg-[#FEFAE1]">
     <Navbar v-if="$route.path !== '/'" />
     <HomeNav v-else />
     <router-view />

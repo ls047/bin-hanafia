@@ -10,125 +10,7 @@
     </div>
 
     <!-- Header (moved inside the first section, above content) -->
-    <header class="relative w-full z-20 font-roboto font-bold text-2xl">
-      <div class="flex justify-between items-center px-6 py-4">
-        <img 
-          src="../assets/محمد بن الحنفية 1.png" 
-          alt="Logo" 
-          class="w-16 md:w-24" 
-        />
-        <ul 
-          class="hidden md:flex flex-row space-x-8" 
-          :class="{ 'bg-white/80 backdrop-blur-md rounded-md py-2 px-4': isMenuOpen }" 
-          dir="rtl"
-        >
-          <li>
-            <button 
-              @click="navigateTo('/')" 
-              class="text-light hover:backdrop-blur-sm hover:bg-white/30 font-bold transition-all duration-300 ease-in-out rounded-md px-4 py-2"
-            >
-              الصفحة الرئيسية
-            </button>
-          </li>
-          <li>
-            <button 
-              @click="navigateTo('/about')" 
-              class="text-light hover:backdrop-blur-sm hover:bg-white/30 font-bold transition-all duration-300 ease-in-out rounded-md px-4 py-2"
-            >
-              عنا
-            </button>
-          </li>
-          <li>
-            <button 
-              @click="navigateTo('/teachers')" 
-              class="text-light hover:backdrop-blur-sm hover:bg-white/30 font-bold transition-all duration-300 ease-in-out rounded-md px-4 py-2"
-            >
-              المدرسين
-            </button>
-          </li>
-          <li>
-            <button 
-              @click="navigateTo('/special-students')" 
-              class="text-light hover:backdrop-blur-sm hover:bg-white/30 font-bold transition-all duration-300 ease-in-out rounded-md px-4 py-2"
-            >
-              الطلاب المتميزين
-            </button>
-          </li>
-        </ul>
 
-        <!-- Mobile Menu Button -->
-        <button 
-          @click="toggleMenu" 
-          class="md:hidden text-light bg-[#EC8A20] p-2 hover:bg-[#d67b1c] rounded-md transition-all duration-300"
-        >
-          <img 
-            v-if="!isMenuOpen" 
-            src="../assets/Group 47.svg" 
-            alt="Menu" 
-            class="h-6 w-6"
-          />
-          <svg 
-            v-else
-            xmlns="http://www.w3.org/2000/svg" 
-            class="h-6 w-6 text-white" 
-            fill="none" 
-            viewBox="0 0 24 24" 
-            stroke="currentColor"
-          >
-            <path 
-              stroke-linecap="round" 
-              stroke-linejoin="round" 
-              stroke-width="2" 
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </button>
-
-        <!-- Mobile Menu -->
-        <div 
-          v-if="isMenuOpen" 
-          class="absolute top-full right-0 w-[50%] bg-white/80 backdrop-blur-md md:hidden rounded-b-md"
-        >
-          <ul 
-            class="flex flex-col space-y-4 p-4 origin-top" 
-            dir="rtl"
-          >
-            <li class="bg-[#EC8A20] rounded-md hover:bg-[#d67b1c] transition-all duration-300">
-              <button 
-                @click="navigateTo('/')" 
-                class="w-full text-right text-light font-bold px-4 py-2"
-              >
-                الصفحة الرئيسية
-              </button>
-            </li>
-            <li class="bg-[#EC8A20] rounded-md hover:bg-[#d67b1c] transition-all duration-300">
-              <button 
-                @click="navigateTo('/about')" 
-                class="w-full text-right text-light font-bold px-4 py-2"
-              >
-                عنا
-              </button>
-            </li>
-            <li class="bg-[#EC8A20] rounded-md hover:bg-[#d67b1c] transition-all duration-300">
-              <button 
-                @click="navigateTo('/teachers')" 
-                class="w-full text-right text-light font-bold px-4 py-2"
-              >
-                المدرسين
-              </button>
-            </li>
-            <li class="bg-[#EC8A20] rounded-md hover:bg-[#d67b1c] transition-all duration-300">
-              <button 
-                @click="navigateTo('/special-students')" 
-                class="w-full text-right text-light font-bold px-4 py-2"
-              >
-                الطلاب المتميزين
-              </button>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </header>
 
     <!-- Content Section -->
     <div class="relative z-10 h-screen">
@@ -273,26 +155,170 @@
       </div>
     </div>
 
-    <!-- Background Photo Section (New) -->
+    <!-- Background Photo Section -->
     <div class="relative w-full h-screen">
       <img 
         src="../assets/BooksFly.svg" 
         alt="Background" 
         class="w-[90%] object-cover"
       />
-      <!-- Optional overlay if needed -->
-      <div class="absolute inset-0 "></div>
+    </div>
+
+    <!-- New Section with Centered Heading and Cards -->
+    <div class="min-h-screen relative -translate-y-44">
+      <div class="w-full flex flex-col items-center">
+        <h1 
+          class="text-4xl md:text-6xl font-bold text-[#000000] text-center mb-16" 
+          dir="rtl"
+        >
+          قسم الأخبار والفعاليات
+        </h1>
+        
+        <!-- Cards Section -->
+        <section class="p-8 flex flex-col items-center w-full">
+          <div class="relative w-[80%] max-w-[1200px]">
+            <!-- Left Arrow -->
+            <button 
+              @click="slideLeft" 
+              class="absolute -left-20 top-1/2 -translate-y-1/2 z-10 bg-[#C98142] hover:bg-[#d67b1c] rounded-full p-5 shadow-md transition-colors duration-300"
+            >
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                class="h-6 w-6 text-white" 
+                fill="none" 
+                viewBox="0 0 24 24" 
+                stroke="currentColor"
+              >
+                <path 
+                  stroke-linecap="round" 
+                  stroke-linejoin="round" 
+                  stroke-width="2" 
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+            </button>
+
+            <!-- Cards Container -->
+            <div class="overflow-hidden mx-auto">
+              <div 
+                class="flex gap-8 transition-transform duration-300 ease-in-out"
+                :style="{ transform: `translateX(${currentTranslate}px)` }"
+              >
+                <div
+                  v-for="(card, index) in cards"
+                  :key="index"
+                  class="w-[calc((100%-4rem)/3)] flex-shrink-0 bg-[#DEA15F6E] shadow-md flex flex-col items-center py-4"
+                  :class="[
+                    {
+                      'rounded-r-[168px] pl-6': index % 3 === 0,
+                      'rounded-t-[168px] pt-6': index % 3 === 1,
+                      'rounded-t-xl pr-6': index % 3 === 2,
+                    },
+                  ]"
+                >
+                  <div class="w-full flex justify-center px-4">
+                    <img 
+                      src="../assets/Rectangle 40.png" 
+                      alt="Event Image" 
+                      class="w-[80%] h-48 object-cover rounded-t-lg" 
+                    />
+                  </div>
+                  <div class="p-4 text-center w-full">
+                    <h3 class="text-lg font-semibold mb-2">{{ card.title }}</h3>
+                    <p class="text-sm text-gray-600 mb-4">{{ card.description }}</p>
+                    <button class="bg-[#C98142] text-white px-4 py-2 rounded">show more</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Arrow -->
+            <button 
+              @click="slideRight" 
+              class="absolute -right-20 top-1/2 -translate-y-1/2 z-10 bg-[#C98142] hover:bg-[#d67b1c] rounded-full p-5 shadow-md transition-colors duration-300"
+            >
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                class="h-6 w-6 text-white" 
+                fill="none" 
+                viewBox="0 0 24 24" 
+                stroke="currentColor"
+              >
+                <path 
+                  stroke-linecap="round" 
+                  stroke-linejoin="round" 
+                  stroke-width="2" 
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </button>
+          </div>
+          <button class="mt-12 text-3xl font-bold bg-[#EC8A20] text-white px-10 py-4 rounded-full">المزيد من المقالات </button>
+        </section>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import axios from 'axios'
 
 const router = useRouter()
 const isMenuOpen = ref(false)
+const cards = ref([
+  {
+    image: "/src/assets/Rectangle 40.png",
+    title: "Event Title 1",
+    description: "Event Description 1",
+    buttonText: "المزيد"
+  },
+  {
+    image: "/src/assets/Rectangle 40.png",
+    title: "Event Title 2",
+    description: "Event Description 2",
+    buttonText: "المزيد"
+  },
+  {
+    image: "/src/assets/Rectangle 40.png",
+    title: "Event Title 3",
+    description: "Event Description 3",
+    buttonText: "المزيد"
+  },
+  {
+    image: "/src/assets/Rectangle 40.png",
+    title: "Event Title 4",
+    description: "Event Description 4",
+    buttonText: "المزيد"
+  },
+  {
+    image: "/src/assets/Rectangle 40.png",
+    title: "Event Title 5",
+    description: "Event Description 5",
+    buttonText: "المزيد"
+  },
+  {
+    image: "/src/assets/Rectangle 40.png",
+    title: "Event Title 6",
+    description: "Event Description 6",
+    buttonText: "المزيد"
+  }
+])
+const buttonLabel = "المزيد من المقالات"
 
+const currentTranslate = ref(0)
+const containerWidth = ref(1200) // Fixed container width
+const visibleCards = 3
+
+onMounted(() => {
+  const container = document.querySelector('.cards-container')
+  if (container) {
+    cardWidth.value = container.offsetWidth / visibleCards
+  }
+})
+
+// Navigation functions
 const navigateTo = (path) => {
   router.push(path)
   isMenuOpen.value = false
@@ -301,9 +327,50 @@ const navigateTo = (path) => {
 const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value
 }
+
+// Fetch data from API on mount
+onMounted(async () => {
+  try {
+    const response = await axios.get('/api/cards') // Replace with your API endpoint
+    cards.value = response.data
+  } catch (error) {
+    console.error("Error fetching cards data:", error)
+  }
+})
+
+const slideLeft = () => {
+  const slideAmount = containerWidth.value + 32 // container width + gap
+  if (currentTranslate.value < 0) {
+    currentTranslate.value += slideAmount
+  }
+}
+
+const slideRight = () => {
+  const slideAmount = containerWidth.value + 32 // container width + gap
+  const maxSlides = Math.ceil(cards.value.length / visibleCards) - 1
+  const maxTranslate = -(slideAmount * maxSlides)
+  
+  if (currentTranslate.value > maxTranslate) {
+    currentTranslate.value -= slideAmount
+  }
+}
 </script>
 
 <style scoped>
+.cards-container {
+  scroll-behavior: smooth;
+}
+
+/* Hide scrollbar */
+.cards-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* For Firefox */
+.cards-container {
+  scrollbar-width: none;
+}
+
 @media (max-width: 768px) {
   .home-container {
     overflow-y: auto;
