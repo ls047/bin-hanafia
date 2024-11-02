@@ -17,7 +17,7 @@
         </li>
         <li>
           <button
-            @click="navigateTo('/about')"
+            @click="navigateTo('#about')"
             class="rounded-md px-4 py-2 font-bold text-black transition-all duration-300 ease-in-out hover:bg-primary hover:bg-opacity-30 hover:backdrop-blur-sm"
           >
             عنا
