@@ -18,10 +18,11 @@
       </p>
     </div>
     <div class="mt-20 relative grid grid-cols-1 gap-8 p-8 md:grid-cols-2 lg:grid-cols-3 gap-y-36 place-items-center">
-      <div
+      <router-link
         v-for="(teacher, index) in sortedTeachers"
         :key="teacher.id"
-        class="group relative flex h-[30rem] w-[70%] flex-col items-center overflow-hidden !rounded-b-none bg-[#DEA15F] pt-6"
+        :to="`/teachers-info/${teacher.id}`"
+        class="group relative flex h-[30rem] w-[70%] flex-col items-center overflow-hidden !rounded-b-none bg-[#DEA15F] pt-6 cursor-pointer hover:shadow-lg transition-all duration-300"
         :class="[
           {
             'rounded-r-[168px] pl-6': index % 3 === 0,
@@ -51,7 +52,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </router-link>
     </div>
   </div>
 </template>

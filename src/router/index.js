@@ -19,6 +19,11 @@ const routes = [
     component: SpecialStudents
   },
   {
+    path: '/teachers-info/:id',
+    name: 'TeacherProfile',
+    component: () => import('../views/teachers-profile.vue')
+  },
+  {
     path: '/:pathMatch(.*)*',
     redirect: '/'
   }
