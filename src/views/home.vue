@@ -234,8 +234,13 @@
                     <h3 class="text-lg sm:text-sm font-semibold mb-2">{{ card.title }}</h3>
                     <p class="text-sm w-[90%] sm:w-[90%] sm:text-xs text-gray-600 mb-4
                      break-words whitespace-pre-wrap">{{ card.description }}</p>
-                    <button class="bg-[#C98142] text-white px-14 py-3 sm:px-4 sm:py-1
-                     rounded-full sm:rounded-2xl text-2xl sm:text-sm">اقرأ المزيد</button>
+                     <button 
+                    @click="router.push(`/news/${card.id}`)"
+                    class="bg-[#C98142] text-white px-14 py-3 sm:px-4 sm:py-1
+                    rounded-full  hover:transition-colors duration-700 sm:rounded-2xl text-2xl sm:text-sm hover:scale-105"
+                  >
+                      اقرأ المزيد
+                    </button>
                   </div>
                 </div>
               </div>
@@ -262,9 +267,14 @@
               </svg>
             </button>
           </div>
-          <button class="mt-12 sm:px-4 sm:text-xl text-3xl font-bold bg-[#EC8A20] text-white 
-          px-10 py-4 rounded-full hover:bg-[#d67b1c] hover:scale-110 
-          duration-500">المزيد من المقالات </button>
+          <button 
+            @click="router.push('/news')" 
+            class="mt-12 sm:px-4 sm:text-xl text-3xl font-bold bg-[#EC8A20] text-white 
+            px-10 py-4 rounded-full hover:bg-[#d67b1c] hover:scale-110 
+            duration-500"
+          >
+            {{ buttonLabel }}
+          </button>
         </section>
         <!-- Add this after the cards section -->
         <div class="min-h-screen relative py-20 sm:py-10 translate-y-24">
@@ -289,7 +299,7 @@
                     الأبتدائية المختلطة بهدف تقديم تعليم <br>
                     شامل وممتع للأطفال. نؤمن بأن <br>
                     التعليم في المراحل المبكرة هو الأساس <br>
-                    لبناء شخصية متوازنة ومبدعة. رؤيتنا<br>
+                    لبناء شخصية موازنة ومبدعة. رؤيتنا<br>
                     هي إعداد جيل واعٍ ومتحمس للتعلم،<br>
                     مع الالتزام بتقديم برامج تعليمية<br>
                     متطورة ومواكبة للعصر
@@ -462,7 +472,6 @@ onMounted(() => {
 // Navigation functions
 const navigateTo = (path) => {
   router.push(path)
-  isMenuOpen.value = false
 }
 
 const toggleMenu = () => {
