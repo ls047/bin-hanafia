@@ -1,45 +1,11 @@
 <template>
-  <header class="top-0 bg-[#EC8A20] w-full z-50 font-roboto font-bold text-2xl">
-    <div class="flex justify-between items-center px-6">
-      <img 
-        src="../assets/logo.png" 
-        alt="Logo" 
-        class="w-16 md:w-24 mt-4 md:mt-2" 
+  <header class="top-0 z-50 bg-[#EC8A20] w-full font-roboto text-2xl font-bold">
+    <div class="flex items-center justify-between px-6">
+      <img
+        src="../assets/logo.png"
+        alt="Logo"
+        class="mt-4 w-16 md:mt-2 md:w-24"
       />
-      <ul class="hidden md:flex flex-row space-x-8" dir="rtl">
-        <li>
-          <button 
-            @click="navigateTo('/')" 
-            class="text-light hover:backdrop-blur-sm hover:bg-white/30 font-bold pl-8 transition-all duration-300 ease-in-out rounded-md px-4 py-2"
-          >
-            الصفحة الرئيسية
-          </button>
-        </li>
-        <li>
-          <button 
-            @click="navigateTo('/about')" 
-            class="text-light hover:backdrop-blur-sm hover:bg-white/30 font-bold transition-all duration-300 ease-in-out rounded-md px-4 py-2"
-          >
-            عنا
-          </button>
-        </li>
-        <li>
-          <button 
-            @click="navigateTo('/teachers')" 
-            class="text-light hover:backdrop-blur-sm hover:bg-white/30 font-bold transition-all duration-300 ease-in-out rounded-md px-4 py-2"
-          >
-            المدرسين
-          </button>
-        </li>
-        <li>
-          <button 
-            @click="navigateTo('/special-students')" 
-            class="text-light hover:backdrop-blur-sm hover:bg-white/30 font-bold transition-all duration-300 ease-in-out rounded-md px-4 py-2"
-          >
-            الطلاب المتميزين
-          </button>
-        </li>
-      </ul>
       <button 
         @click="toggleMenu" 
         class="md:hidden text-light p-2 hover:bg-white/30 rounded-md transition-all duration-300"
@@ -66,80 +32,118 @@
           />
         </svg>
       </button>
-      <transition
-        enter-active-class="transition-all duration-500 ease-out"
-        enter-from-class="opacity-0 transform scale-95"
-        enter-to-class="opacity-100 transform scale-100"
-        leave-active-class="transition-all duration-300 ease-in"
-        leave-from-class="opacity-100 transform scale-100"
-        leave-to-class="opacity-0 transform scale-95"
-      >
-        <div 
-          v-if="isMenuOpen" 
-          class="absolute top-full right-0 w-[50%] bg-white/80 backdrop-blur-md md:hidden"
-        >
-          <ul 
-            v-if="isMenuOpen" 
-            class="flex flex-col space-y-4 p-4 origin-top" 
-            dir="rtl"
+      <ul class="hidden flex-row space-x-8 md:flex" dir="rtl">
+        <li>
+          <button
+            @click="navigateTo('/')"
+            class="rounded-md px-4 py-2 font-bold text-[#FEFAE1] transition-all duration-300 ease-in-out hover:bg-[#FEFAE1] hover:bg-opacity-30 hover:scale-110 hover:backdrop-blur-sm"
           >
-            <li>
-              <button 
-                @click="navigateTo('/')" 
-                class="w-full text-right text-light hover:bg-white/30 font-bold transition-all duration-300 ease-in-out rounded-md px-4 py-2"
-              >
-                الصفحة الرئيسية
-              </button>
-            </li>
-            <li>
-              <button 
-                @click="navigateTo('/about')" 
-                class="w-full text-right text-light hover:bg-white/30 font-bold transition-all duration-300 ease-in-out rounded-md px-4 py-2"
-              >
-                عنا
-              </button>
-            </li>
-            <li>
-              <button 
-                @click="navigateTo('/teachers')" 
-                class="w-full text-right text-light hover:bg-white/30 font-bold transition-all duration-300 ease-in-out rounded-md px-4 py-2"
-              >
-                المدرسين
-              </button>
-            </li>
-            <li>
-              <button 
-                @click="navigateTo('/special-students')" 
-                class="w-full text-right text-light hover:bg-white/30 font-bold transition-all duration-300 ease-in-out rounded-md px-4 py-2"
-              >
-                الطلاب المتميزين
-              </button>
-            </li>
-          </ul>
-        </div>
-      </transition>
+            الصفحة الرئيسية
+          </button>
+        </li>
+        <li>
+          <button
+            @click="navigateTo('/#about')"
+            class="rounded-md px-4 py-2 font-bold text-[#FEFAE1] transition-all duration-300 ease-in-out hover:bg-[#FEFAE1] hover:bg-opacity-30 hover:scale-110 hover:backdrop-blur-sm"
+          >
+            عنا
+          </button>
+        </li>
+        <li>
+          <button
+            @click="navigateTo('/teachers')"
+            class="rounded-md px-4 py-2 font-bold text-[#FEFAE1] transition-all duration-300 ease-in-out hover:bg-[#FEFAE1] hover:bg-opacity-30 hover:scale-110 hover:backdrop-blur-sm"
+          >
+            المدرسين
+          </button>
+        </li>
+        <li>
+          <button
+            @click="navigateTo('/special-students')"
+            class="rounded-md px-4 py-2 font-bold text-[#FEFAE1] transition-all duration-300 ease-in-out hover:bg-[#FEFAE1] hover:bg-opacity-30 hover:scale-110 hover:backdrop-blur-sm"
+          >
+            الطلاب المتميزين
+          </button>
+        </li>
+      </ul>
     </div>
+
+    <transition name="fade-slide">
+      <div v-if="isMenuOpen" class="md:hidden fixed top-[70px] right-0 w-full">
+        <ul class="absolute right-6 rounded-3xl w-[30%] bg-[#FEFAE1] border border-[#EC8A20] py-9 shadow-lg" dir="rtl">
+          <li v-for="item in menuItems" :key="item.path">
+            <button
+              @click="navigateTo(item.path)"
+              class="w-full px-4 py-3 text-right text-sm text-[#EC8A20] hover:bg-primary hover:bg-opacity-10 transition-all duration-300"
+            >
+              {{ item.name }}
+            </button>
+          </li>
+        </ul>
+      </div>
+    </transition>
   </header>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref } from "vue";
+import { useRouter } from "vue-router";
 
-const router = useRouter()
-const isMenuOpen = ref(false)
+const router = useRouter();
+const isMenuOpen = ref(false);
+
+const menuItems = [
+  { name: 'الصفحة الرئيسية', path: '/' },
+  { name: 'عنا', path: '/about' },
+  { name: 'المدرسين', path: '/teachers' },
+  { name: 'الطلاب المتميزين', path: '/special-students' }
+];
 
 const navigateTo = (path) => {
-  router.push(path)
-  isMenuOpen.value = false
-}
+  if (path.includes('#')) {
+    const [route, hash] = path.split('#');
+    router.push(route).then(() => {
+      const element = document.getElementById(hash);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  } else {
+    router.push(path);
+  }
+  isMenuOpen.value = false;
+};
 
 const toggleMenu = () => {
-  isMenuOpen.value = !isMenuOpen.value
-}
+  isMenuOpen.value = !isMenuOpen.value;
+};
 </script>
 
-
 <style scoped>
+.absolute {
+  position: absolute;
+  z-index: 50;
+}
 
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+  transition: all 1s ease-out;
+}
+
+.fade-slide-enter-from,
+.fade-slide-leave-to {
+  transform: translateX(50%);
+  opacity: 0;
+}
+
+.fade-slide-enter-to,
+.fade-slide-leave-from {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.fixed {
+  position: fixed;
+  z-index: 50;
+}
 </style>

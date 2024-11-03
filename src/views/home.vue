@@ -277,7 +277,7 @@
           </button>
         </section>
         <!-- Add this after the cards section -->
-        <div class="min-h-screen relative py-20 sm:py-10 translate-y-24">
+        <div class="min-h-screen relative py-20 sm:py-10 translate-y-24" id="about">
           <div class="w-full flex flex-col items-center">
             <h1 
               class="text-4xl md:text-6xl font-bold text-[#000000] sm:text-3xl text-center mb-16" 

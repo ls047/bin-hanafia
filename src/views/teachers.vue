@@ -11,7 +11,7 @@
       class="relative z-10 flex flex-col items-center justify-center px-4 pt-20 text-center"
     >
       <h2 class="mb-4 mt-12 text-4xl font-bold">فريقنا التعليمي</h2>
-      <p class="w-1/2 text-3xl font-bold leading-relaxed">
+      <p class="w-1/2 text-3xl sm:text-xs font-bold leading-relaxed">
         فريقنا من المعلمين المؤهلين يعمل بحماس واهتمام كبير لتقديم أفضل تجربة
         تعليمية. نسعى دائماً لدعم الأطفال في تطوير مهاراتهم وتنمية حب التعلم
         لديهم
