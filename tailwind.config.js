@@ -20,6 +20,7 @@ export default {
       fontFamily: {
         'sans': ['Roboto', 'sans-serif'],
         'roboto': ['Roboto', 'sans-serif'],
+        'item': ['IBM Plex Sans Arabic', 'sans-serif'],
       },
       screens: {
         'xs': '475px',

@@ -4,7 +4,7 @@
       <img
         src="/src/assets/paper-plane.png"
         alt="teachers"
-        class="absolute left-0 mb-12 w-[90%]"
+        class="absolute left-0 mb-12 w-[90%] sm:mb-0 sm:translate-y-6"
       />
     </div>
     <div
@@ -22,16 +22,19 @@
         v-for="(teacher, index) in sortedTeachers"
         :key="teacher.id"
         :to="`/teachers-info/${teacher.id}`"
-        class="group relative flex h-[30rem] w-[70%] flex-col items-center overflow-hidden !rounded-b-none bg-[#DEA15F] pt-6 cursor-pointer hover:shadow-lg transition-all duration-300"
+        class="group relative flex h-[30rem] w-[70%] flex-col 
+        items-center overflow-hidden !rounded-b-none bg-[#DEA15F] 
+        pt-6 cursor-pointer hover:shadow-lg transition-all duration-300"
         :class="[
           {
-            'rounded-r-[168px] pl-6': index % 3 === 0,
+            'rounded-r-[168px] sm:rounded-r-none sm:rounded-t-[168px] pl-6 sm:pl-0': index % 3 === 0,
             'rounded-t-[168px] pt-6': index % 3 === 1,
-            'rounded-l-[168px] pr-6': index % 3 === 2,
+            'rounded-l-[168px] sm:rounded-t-[168px] rounded-r-none sm:rounded-l-none pr-6 sm:pr-0': index % 3 === 2,
           },
-          teacher.role === 'مدير' ? '-mt-36' : '',
-          teacher.role === 'معاون' && index % 3 === 0 ? 'translate-x-32 translate-y-12' : '',
-          teacher.role === 'معاون' && index % 3 === 2 ? '-translate-x-32 translate-y-12' : '',
+          teacher.role === 'مدير' ? '-mt-36 sm:-mt-0 sm:self-center sm:justify-center' : '',
+          teacher.role === 'معاون' && index % 3 === 0 ? 'translate-x-32 translate-y-12 sm:translate-x-0 sm:translate-y-0' : '',
+          teacher.role === 'معاون' && index % 3 === 2 ? '-translate-x-32 translate-y-12 sm:-translate-x-0 sm:-translate-y-0' : '',
+          teacher.role === 'مدير' && index % 3 === 1 ? 'sm:order-first' : '',
         ]"
       >
         <div class="h-full w-full">
@@ -40,9 +43,9 @@
             :alt="teacher.name"
             class="h-full w-full !rounded-b-none object-cover"
             :class="{
-              'rounded-r-[168px]': index % 3 === 0,
+              'rounded-r-[168px] sm:rounded-r-none sm:rounded-t-[168px]': index % 3 === 0,
               'rounded-t-[168px]': index % 3 === 1,
-              'rounded-l-[168px]': index % 3 === 2
+              'rounded-l-[168px] sm:rounded-l-none sm:rounded-t-[168px]': index % 3 === 2
             }"
           />
           <div class="absolute bottom-0 h-1/4 w-full bg-[#CE8849] text-center text-white">

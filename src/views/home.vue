@@ -1,7 +1,7 @@
 <template>
   <div class="home-container min-h-screen sm:overflow-y-hidden relative font-roboto">
     <!-- Background SVG Section -->
-    <div class="absolute top-0 left-0 w-full h-screen overflow-hidden z-0">
+    <div class="absolute top-0 left-0 w-full h-screen overflow-hidden">
       <img 
         src="../assets/Group 1.svg" 
         alt="Background" 
@@ -9,58 +9,35 @@
       >
     </div>
     <!-- Content Section -->
-    <div class="relative z-10 h-screen">
-      <div class="absolute top-0 -left-[10%] w-full h-screen text-[#FEFAE1]">
-        <!-- Mobile-first layout with flex column -->
-        <div class="flex flex-col md:flex-row w-full h-full">
-          <!-- pics section - Shows first on mobile -->
-          <div class="relative w-full z-10 md:w-[50%] mt-[4rem] md:mt-[11rem] md:order-2 md:right-[20%]">
-            <!-- Base rectangle -->
-            <img 
-              src="../assets/paper-plane.svg" 
-              alt="Rectangle 2"
-              class="absolute -top-[1.3rem] right-[1rem] md:-right-[4.2rem] w-[17rem] md:w-[22.625rem] h-auto z-20"
-            >
-            <img 
-              src="../assets/Rectangle 1.svg" 
-              alt="Rectangle 1"
-              class="w-[15rem] md:w-[19.75rem] absolute top-[.25rem] right-[2rem] md:right-[-1.8rem] z-10"
-            >
-            <!-- Overlapping rectangle -->
-            <img 
-              src="../assets/Rectangle 2.svg" 
-              alt="Rectangle 2"
-              class="absolute top-[2.3rem] right-[3.5rem] md:right-[.3rem] w-[13rem] md:w-[17.625rem] h-auto z-30"
-            >
-            <img 
-              src="../assets/Books.svg" 
-              alt="Books"
-              class="absolute bottom-[30rem] md:bottom-[10rem] sm:-bottom-[15rem] 
-              right-[1rem] md:-right-[4.2rem] w-[7rem] sm:w-[5rem] lg:bottom-[16rem] 
-              xl:bottom-[10rem] 2xl:bottom-[85rem] h-auto z-40"
-            >
-          </div>
-
-          <!-- Text Section - Shows second on mobile -->
-          <div class="w-[70%] sm:w-[100%] mt-[20rem] md:mt-[11rem] px-4 
-          translate-x-36 md:px-0 md:order-1 md:left-[15%] sm:translate-x-[11%] 
-          sm:-translate-y-14 xl:translate-x-32 lg:-translate-x-28 z-50">
-            <div class="max-w-xl mx-auto md:mx-0 relative" dir="rtl">
-              <h1 class="text-4xl font-bold mb-2 text-center md:text-right">
-                معاً نبني مستقبل أبنائنا
-              </h1>
-              <p class="text-2xl sm:text-xl leading-relaxed text-center md:text-right mb-8">
-                مرحباً بكم في  مدرسة محمد بن <br>الحنفية الأبتدائية المختلطة، حيث يبدأ<br> التعليم الممتع والاد. نحرص على <br>تم مهارات الأطفال وتوفير بيئة<br> تعليمية محفزة وداعمة
-              </p>
-              <div class="flex justify-start">
-                <button class="bg-[#FEFAE1] text-[#000000] text-2xl px-10 py-2 rounded-full font-bold hover:opacity-80
-                 sm:-translate-x-[5rem] hover:scale-110 duration-500 relative z-50">
-                  عن المدرسة       
-                </button>
-              </div>
-            </div>
-          </div>
+    <div class="relative z-20 h-screen flex">
+      <div class="flex sm:flex-col-reverse self-center justify-center items-center
+       w-full h-screen text-[#FEFAE1]">
+        <!-- text section -->
+        <div class="font-item flex flex-col sm:items-center sm:justify-center" dir="rtl">
+          <h1 class="text-4xl font-bold text-[#FEFAE1] 
+          text-center pb-4 pt-4 sm:text-2xl sm:pt-8 sm:pb-1">
+            معاً نبني مستقبل أبنائنا
+          </h1>
+          <p class="text-2xl sm:text-xl sm:text-center leading-relaxed mb-8 sm:pt-2">
+            مرحباً بكم في  مدرسة محمد بن 
+            <br>الحنفية الأبتدائية المختلطة، حيث يبدأ<br>
+             التعليم الممتع والهادف. نحرص على 
+             <br>تنمية مهارات الأطفال وتوفير بيئة<br>
+              تعليمية محفزة وداعمة
+          </p>
+          <button class="bg-[#FEFAE1] text-black px-14 py-3 sm:px-12 sm:py-4
+          rounded-full hover:transition-colors duration-700
+           sm:rounded-full text-2xl sm:self-center sm:justify-center 
+           sm:text-2xl hover:scale-105">
+          عن المدرسة
+          </button>
         </div>
+        <!-- pics section -->
+         <div class="flex flex-col w-[33%] sm:w-[66%] h-[60%] sm:h-[28%] items-center justify-center relative">
+          <img src="../assets/Rectangle 1.svg" alt="pic 1" class="w-[90%] absolute">
+          <img src="../assets/Rectangle 2.svg" alt="pic 2" class="w-[82%] absolute">
+          <img src="../assets/Books.svg" alt="pic 3" class="w-[27%] absolute bottom-0 right-0">
+         </div>
       </div>
     </div>
 
@@ -299,10 +276,10 @@
                     الأبتدائية المختلطة بهدف تقديم تعليم <br>
                     شامل وممتع للأطفال. نؤمن بأن <br>
                     التعليم في المراحل المبكرة هو الأساس <br>
-                    لبناء شخصية موازنة ومبدعة. رؤيتنا<br>
+                    لبناء شخصية موازنة ومبعة. رؤيتنا<br>
                     هي إعداد جيل واعٍ ومتحمس للتعلم،<br>
                     مع الالتزام بتقديم برامج تعليمية<br>
-                    متطورة ومواكبة للعصر
+                    متطورة مواكبة للعصر
                   </p>
                 </div>
 
@@ -400,7 +377,7 @@
                style="border:0;"
                allowfullscreen="" 
                loading="lazy" 
-               class="sm:w-[40%] sm:-translate-x-6 rounded-2xl sm:h-[160px]"
+               class="sm:w-[40%] sm:-translate-x-6 rounded-2xl sm:h-[170px]"
                referrerpolicy="no-referrer-when-downgrade">
             </iframe>
             </div>

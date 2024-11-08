@@ -5,12 +5,13 @@
       <img 
         src="../assets/Group 43.png" 
         alt="Background Pattern" 
-        class="w-[70%] -translate-y-[7rem] h-auto object-contain opacity-50"
+        class="w-[70%] sm:w-[90%] -translate-y-[7rem] sm:-translate-y-[10rem] h-auto 
+        object-contain opacity-50"
       />
     </div>
 
     <!-- Content Container -->
-    <div class="relative z-10 container mx-auto px-0 py-[8rem]">
+    <div class="relative z-10 container mx-auto px-0 py-[8rem] sm:py-[10rem]">
       <div v-if="loading" class="flex justify-center items-center min-h-[50rem]">
         <div class="animate-spin rounded-full h-[3rem] w-[3rem] border-4 border-[#EC8A20] border-t-transparent"></div>
       </div>
@@ -22,13 +23,14 @@
       <div v-else>
         <!-- Teacher Card -->
         <div class="flex justify-center items-center">
-          <div class="relative flex w-[90%] md:w-[30%] flex-col items-center 
+          <div class="relative flex w-[90%] md:w-[30%] sm:w-[40%] flex-col items-center 
             overflow-hidden rounded-t-[13rem] bg-[#EC8A20] pt-[1.5rem] wave-border">
             <div class="w-full rounded-t-[16rem] flex justify-center">
               <img
                 :src="teacher.image"
                 :alt="teacher.name"
-                class="w-[100%] pb-[6rem] rounded-t-[168px] object-cover h-[31.25rem]"
+                class="w-[100%] pb-[6rem] sm:pb-[2rem] rounded-t-[168px]
+                 object-cover h-[31.25rem] sm:h-[20rem]"
               />
             </div>
           </div>
@@ -174,7 +176,7 @@ circle {
 
 .wave-border {
   position: relative;
-  animation: waveAnimation 8s ease-in-out infinite;
+  animation: waveAnimation 2s ease-in-out infinite;
 }
 
 @keyframes waveAnimation {

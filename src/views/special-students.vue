@@ -1,5 +1,5 @@
 <template>
-  <div class="container h-screen bg-light">
+  <div class="container h-screen bg-light overflow-x-hidden">
     <div>
       <img
         src="/src/assets/paper-plane.png"
@@ -7,10 +7,10 @@
         class="absolute left-0 mb-12 w-[90%]"
       />
     </div>
-    <div class="flex flex-col items-center justify-center pt-6">
-      <img src="/src/assets/education.png" alt="" class="w-[50%]" />
-      <div class="w-1/2">
-        <p class="mt-5 text-center text-3xl font-bold leading-relaxed">
+    <div class="flex flex-col items-center sm:w-full justify-center pt-6">
+      <img src="/src/assets/education.png" alt="" class="w-[50%] sm:w-[70%]" />
+      <div class="w-1/2 sm:w-[87%]">
+        <p class="mt-5 text-center text-3xl sm:text-sm font-bold leading-relaxed">
           نبارك للطلاب الأوائل على مثابرتهم واجتهادهم، ونتمنى لهم المزيد من
           النجاح في المستقبل. إن إنجازاتهم الأكاديمية تجعلنا فخورين ونتطلع إلى
           رؤية إنجازاتهم المستقبلية
@@ -18,28 +18,30 @@
       </div>
     </div>
     <div>
-      <p class="mt-5 text-center text-3xl font-bold">طلابنا المتميزون</p>
+      <p class="mt-5 text-center text-3xl sm:text-xl font-bold">طلابنا المتميزون</p>
       <div
-        class="relative mt-20 grid grid-cols-1 place-items-center gap-8 p-8 md:grid-cols-2 lg:grid-cols-2"
+        class="relative mt-20 grid grid-cols-1 place-items-center
+         gap-8 p-8 sm:p-0 sm:gap-10 md:grid-cols-2 lg:grid-cols-2"
       >
         <div
           v-for="(student, index) in sortedStudents"
           :key="student.id"
-          class="relative h-[40rem] w-[80%] bg-[#F0D4A9]"
+          class="relative h-[40rem] w-[80%] sm:w-[99%] sm:h-[39rem] bg-[#F0D4A9]"
           :class="{
-            'rounded-br-3xl rounded-tl-[168px]': index % 2 === 0,
-            'rounded-br-[168px] rounded-tl-3xl': index % 2 !== 0,
+            'rounded-br-3xl rounded-tl-[168px] sm:rounded-br-3xl sm:rounded-tl-3xl': index % 2 === 0,
+            'rounded-br-[168px] rounded-tl-3xl sm:rounded-br-3xl sm:rounded-tl-3xl': index % 2 !== 0,
           }"
         >
           <div class="mx-auto mt-[10%] w-1/2 rounded-3xl bg-secondary">
-            <p class="py-2 text-center text-3xl font-bold text-light">
+            <p class="py-2 text-center text-3xl sm:text-lg sm:px-2 font-bold text-light">
               {{ student.grade }}
             </p>
           </div>
           <div
-            class="mx-auto grid h-full w-full -translate-y-12 grid-cols-2 place-items-center gap-4 p-4"
+            class="mx-auto grid h-full w-full
+             -translate-y-12 grid-cols-2 place-items-center gap-4 p-4 sm:p-0 sm:gap-0"
           >
-            <div class="relative flex w-full  justify-center">
+            <div class="relative flex w-full justify-center">
               <img
                 :src="student.image"
                 :alt="student.name"
@@ -48,10 +50,10 @@
               <div
                 class="absolute bottom-[2rem] left-1/2 w-[90%] -translate-x-1/2 rounded-t-3xl bg-secondary p-4"
               >
-                <p class="text-center text-xl font-bold text-light">
+                <p class="text-center text-xl sm:text-lg font-bold text-light">
                   {{ student.fullname }}
                 </p>
-                <p class="text-center text-basefont-bold text-light">
+                <p class="text-center text-base sm:text-sm font-bold text-light">
                   {{ student.name }}
                 </p>
               </div>
