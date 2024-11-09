@@ -20,6 +20,10 @@
         <p class="text-xl text-[#333] font-item">عذراً، لم يتم العثور على معلومات المدرس</p>
       </div>
 
+      <div v-else-if="error" class="flex justify-center items-center min-h-[50rem]">
+        <p class="text-xl text-red-600 font-item">{{ error }}</p>
+      </div>
+
       <div v-else>
         <!-- Teacher Card -->
         <div class="flex justify-center items-center">
@@ -92,10 +96,12 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
+import axios from 'axios';
 
 const route = useRoute();
 const teacher = ref(null);
 const loading = ref(true);
+const error = ref(null);
 
 const successRate = ref(0);
 const displayedPercentage = ref(0);
@@ -107,14 +113,12 @@ const dashOffset = computed(() => {
 
 const animatePercentage = (targetPercentage) => {
   let start = 0;
-  const duration = 1000; // Reduced to 1 second
+  const duration = 1000;
   const startTime = performance.now();
 
   const animate = (currentTime) => {
     const elapsed = currentTime - startTime;
     const progress = Math.min(elapsed / duration, 1);
-
-    // Use the same progress value for both circle and percentage
     displayedPercentage.value = Math.round(progress * targetPercentage);
     successRate.value = progress * targetPercentage;
 
@@ -126,43 +130,30 @@ const animatePercentage = (targetPercentage) => {
   requestAnimationFrame(animate);
 };
 
-// Simulated teacher data
-const teacherData = [
-  {
-    id: 1,
-    name: "محمد الشريف",
-    subject: "المدير",
-    role: "مدير",
-    image: "/src/assets/download.png",
-    successRate: 50, // Add success rate for each teacher
-  },
-  {
-    id: 2,
-    name: "أحمد محمود",
-    subject: "معاون المدير",
-    role: "معاون",
-    image: "/src/assets/download.png",
-    successRate: 65, // Add success rate for each teacher
-  },
-  // Add other teachers as needed
-];
-
 onMounted(async () => {
+  const teacherId = route.params.id;
   try {
-    const teacherId = parseInt(route.params.id);
-    await new Promise(resolve => setTimeout(resolve, 500));
+    const response = await axios.get(`https://mohammed-bin-alhanafia.com/api/Teacher/${teacherId}`, {
+      headers: {
+        'Accept': 'application/json'
+      }
+    });
     
-    const foundTeacher = teacherData.find(t => t.id === teacherId);
+    teacher.value = {
+      id: response.data.teacherId,
+      name: response.data.name,
+      subject: response.data.subject,
+      role: response.data.role,
+      image: response.data.image || "/src/assets/download.png",
+      experience: response.data.experience || 'غير محدد' // Add experience if available in API
+    };
     
-    if (foundTeacher) {
-      teacher.value = foundTeacher;
-      // Start animation immediately after teacher data is loaded
-      animatePercentage(foundTeacher.successRate || 50);
-    } else {
-      console.error('Teacher not found');
-    }
-  } catch (error) {
-    console.error('Error fetching teacher:', error);
+    // Start animation with a default or API-provided success rate
+    animatePercentage(response.data.successRate || 85); // You can adjust the default value
+    
+  } catch (err) {
+    error.value = 'عذراً، حدث خطأ أثناء تحميل بيانات المعلم';
+    console.error('Error fetching teacher details:', err);
   } finally {
     loading.value = false;
   }

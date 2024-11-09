@@ -45,8 +45,8 @@
               >
                 <div class="w-full flex justify-center px-4">
                   <img 
-                  src="../assets/Rectangle 40.png" 
-                  alt="Event Image" 
+                    :src="card.image" 
+                    alt="Event Image" 
                     class="w-[90%] sm:w-[100%] sm:rounded-xl h-48 sm:h-20 object-cover rounded-3xl" 
                   />
                 </div>
@@ -80,8 +80,13 @@ const router = useRouter();
 
 onMounted(async () => {
   try {
-    const response = await axios.get('/api/news'); // Replace with your actual API endpoint
-    newsItems.value = response.data;
+    const response = await axios.get('https://mohammed-bin-alhanafia.com/api/Content/AllContent');
+    newsItems.value = response.data.map(item => ({
+      id: item.id,
+      title: item.title,
+      description: item.description,
+      image: item.image || "../assets/Rectangle 40.png", // fallback image if none provided
+    }));
   } catch (err) {
     error.value = 'عذراً، حدث خطأ أثناء تحميل الأخبار';
     console.error('Error fetching news:', err);

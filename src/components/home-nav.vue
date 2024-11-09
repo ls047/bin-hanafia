@@ -70,7 +70,7 @@
 
     <transition name="fade-slide">
       <div v-if="isMenuOpen" class="md:hidden fixed top-[70px] right-0 w-full">
-        <ul class="absolute right-6 rounded-3xl w-[40%] bg-[#FEFAE1] border border-[#EC8A20] py-9 shadow-lg" dir="rtl">
+        <ul class="absolute right-6 rounded-3xl w-[40%] bg-[#FEFAE1] border border-[#EC8A20] py-4 shadow-lg" dir="rtl">
           <li v-for="item in menuItems" :key="item.path">
             <button
               @click="navigateTo(item.path)"

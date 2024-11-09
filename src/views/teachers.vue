@@ -17,7 +17,16 @@
         لديهم
       </p>
     </div>
-    <div class="mt-20 relative grid grid-cols-1 gap-8 p-8 md:grid-cols-2 lg:grid-cols-3 gap-y-36 place-items-center">
+    
+    <div v-if="loading" class="flex justify-center items-center mt-20">
+      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-[#DEA15F]"></div>
+    </div>
+    
+    <div v-else-if="error" class="text-center mt-20 text-red-600">
+      {{ error }}
+    </div>
+    
+    <div v-else class="mt-20 relative grid grid-cols-1 gap-8 p-8 md:grid-cols-2 lg:grid-cols-3 gap-y-36 place-items-center">
       <router-link
         v-for="(teacher, index) in sortedTeachers"
         :key="teacher.id"
@@ -61,63 +70,45 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
-const teachers = [
-  {
-    id: 1,
-    name: "محمد الشريف",
-    subject: "المدير",
-    role: "مدير",
-    image: "/src/assets/download.png",
-  },
-  {
-    id: 2,
-    name: "أحمد محمود",
-    subject: "معاون المدير",
-    role: "معاون",
-    image: "/src/assets/download.png",
-  },
-  {
-    id: 3,
-    name: "سارة خالد",
-    subject: "معاون المدير",
-    role: "معاون",
-    image: "/src/assets/download.png",
-  },
-  {
-    id: 4,
-    name: "فاطمة أحمد",
-    subject: "الرياضيات",
-    role: "معلم",
-    image: "/src/assets/download.png",
-  },
-  {
-    id: 5,
-    name: "سارة خالد",
-    subject: "العلوم",
-    role: "معلم",
-    image: "/src/assets/download.png",
-  },
-  {
-    id: 6,
-    name: "سارة خالد",
-    subject: "العلوم",
-    role: "معلم",
-    image: "/src/assets/download.png",
-  },
-];
+import { ref, computed, onMounted } from 'vue';
+import axios from 'axios';
+
+const teachers = ref([]);
+const loading = ref(true);
+const error = ref(null);
+
+onMounted(async () => {
+  try {
+    const response = await axios.get('https://mohammed-bin-alhanafia.com/api/Teacher', {
+      headers: {
+        'Accept': 'application/json'
+      }
+    });
+    teachers.value = response.data.map(teacher => ({
+      id: teacher.teacherId,
+      name: teacher.name,
+      subject: teacher.subject,
+      role: teacher.role,
+      image: teacher.image || "/src/assets/download.png",
+    }));
+  } catch (err) {
+    error.value = 'عذراً، حدث خطأ أثناء تحميل بيانات المعلمين';
+    console.error('Error fetching teachers:', err);
+  } finally {
+    loading.value = false;
+  }
+});
 
 // Sort teachers by role
 const sortedTeachers = computed(() => {
-  const director = teachers.find(t => t.role === "مدير");
-  const assistants = teachers.filter(t => t.role === "معاون");
-  const regularTeachers = teachers.filter(t => t.role === "معلم");
+  const director = teachers.value.find(t => t.role === "مدير");
+  const assistants = teachers.value.filter(t => t.role === "معاون");
+  const regularTeachers = teachers.value.filter(t => t.role === "معلم");
   
   return [
-    assistants[0], // Left assistant
-    director,      // Director in the middle
-    assistants[1], // Right assistant
-    ...regularTeachers
+    director,      // Director first
+    ...assistants, // Assistants next
+    ...regularTeachers // Regular teachers last
   ].filter(Boolean);
 });
 </script>

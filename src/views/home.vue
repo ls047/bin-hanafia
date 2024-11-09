@@ -377,7 +377,8 @@
                style="border:0;"
                allowfullscreen="" 
                loading="lazy" 
-               class="sm:w-[40%] sm:-translate-x-6 rounded-2xl sm:h-[170px]"
+               class="sm:w-[40%] sm:-translate-x-6 rounded-3xl sm:h-[170px] hover:rounded-2xl 
+               transition-transform duration-300"
                referrerpolicy="no-referrer-when-downgrade">
             </iframe>
             </div>
@@ -458,10 +459,26 @@ const toggleMenu = () => {
 // Fetch data from API on mount
 onMounted(async () => {
   try {
-    const response = await axios.get('/api/cards') // Replace with your API endpoint
-    cards.value = response.data
+    const response = await axios.get('https://mohammed-bin-alhanafia.com/api/Content/AllContent')
+    cards.value = response.data.map(item => ({
+      id: item.id,
+      image: item.image || "/src/assets/Rectangle 40.png", // fallback image
+      title: item.title,
+      description: item.description,
+      buttonText: "المزيد"
+    }))
   } catch (error) {
     console.error("Error fetching cards data:", error)
+    // Fallback to default cards if API fails
+    cards.value = [
+      {
+        image: "/src/assets/Rectangle 40.png",
+        title: "Event Title 1",
+        description: "Event Description 1",
+        buttonText: "المزيد"
+      },
+      // ... other default cards ...
+    ]
   }
 })
 

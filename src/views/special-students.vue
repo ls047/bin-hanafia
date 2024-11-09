@@ -1,5 +1,5 @@
 <template>
-  <div class="container h-screen bg-light overflow-x-hidden">
+  <div class="container h-screen bg-light overflow-hidden">
     <div>
       <img
         src="/src/assets/paper-plane.png"
@@ -17,7 +17,15 @@
         </p>
       </div>
     </div>
-    <div>
+    <div v-if="loading" class="flex justify-center items-center mt-20">
+      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-[#F0D4A9]"></div>
+    </div>
+    
+    <div v-else-if="error" class="text-center mt-20 text-red-600">
+      {{ error }}
+    </div>
+    
+    <div v-else>
       <p class="mt-5 text-center text-3xl sm:text-xl font-bold">طلابنا المتميزون</p>
       <div
         class="relative mt-20 grid grid-cols-1 place-items-center
@@ -92,92 +100,38 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, onMounted, computed } from 'vue';
+import axios from 'axios';
 
-const students = ref([
-  {
-    id: 1,
-    name: "طالب نموذجي",
-    fullname: "محمد عبد الله",
-    grade: "السادس أبتدائي - شعبة ب",
-    image: "/src/assets/student.jpg",
-    average: 95,
-  },
-  {
-    id: 1,
-    name: "طالب نموذجي",
-    fullname: "زينب عبد الله",
-    grade: "السادس أبتدائي - شعبة أ",
-    image: "/src/assets/student.jpg",
-    average: 95,
-  },
-  {
-    id: 1,
-    name: "طالب نموذجي",
-    fullname: "زينب عبد الله",
-    grade: "السادس أبتدائي - شعبة أ",
-    image: "/src/assets/student.jpg",
-    average: 95,
-  },
-  {
-    id: 1,
-    name: "طالب نموذجي",
-    fullname: "زينب عبد الله",
-    grade: "السادس أبتدائي - شعبة أ",
-    image: "/src/assets/student.jpg",
-    average: 95,
-  },
-  {
-    id: 1,
-    name: "طالب نموذجي",
-    fullname: "زينب عبد الله",
-    grade: "السادس أبتدائي - شعبة أ",
-    image: "/src/assets/student.jpg",
-    average: 95,
-  },
-  {
-    id: 1,
-    name: "طالب نموذجي",
-    fullname: "زينب عبد الله",
-    grade: "السادس أبتدائي - شعبة أ",
-    image: "/src/assets/student.jpg",
-    average: 95,
-  },
-  {
-    id: 1,
-    name: "طالب نموذجي",
-    fullname: "زينب عبد الله",
-    grade: "السادس أبتدائي - شعبة أ",
-    image: "/src/assets/student.jpg",
-    average: 95,
-  },
-  {
-    id: 1,
-    name: "طالب نموذجي",
-    fullname: "زينب عبد الله",
-    grade: "السادس أبتدائي - شعبة أ",
-    image: "/src/assets/student.jpg",
-    average: 95,
-  },
-  {
-    id: 1,
-    name: "طالب نموذجي",
-    fullname: "زينب عبد الله",
-    grade: "السادس أبتدائي - شعبة أ",
-    image: "/src/assets/student.jpg",
-    average: 95,
-  },
-  {
-    id: 1,
-    name: "طالب نموذجي",
-    fullname: "زينب عبد الله",
-    grade: "السادس أبتدائي - شعبة أ",
-    image: "/src/assets/student.jpg",
-    average: 95,
-  },
-]);
+const students = ref([]);
+const loading = ref(true);
+const error = ref(null);
+
+onMounted(async () => {
+  try {
+    const response = await axios.get('https://mohammed-bin-alhanafia.com/api/Student/GetNerds', {
+      headers: {
+        'Accept': 'application/json'
+      }
+    });
+    
+    students.value = response.data.map(student => ({
+      id: student.studentId,
+      name: student.name,
+      fullname: student.fullName,
+      grade: student.grade,
+      image: student.image || "/src/assets/student.jpg", // fallback image
+      average: student.average
+    }));
+  } catch (err) {
+    error.value = 'عذراً، حدث خطأ أثناء تحميل بيانات الطلاب المتميزين';
+    console.error('Error fetching special students:', err);
+  } finally {
+    loading.value = false;
+  }
+});
 
 const sortedStudents = computed(() => {
-  return [...students.value].sort((a, b) => a.name.localeCompare(b.name));
+  return [...students.value].sort((a, b) => b.average - a.average); // Sort by average in descending order
 });
 </script>
