@@ -79,17 +79,17 @@ const error = ref(null);
 
 onMounted(async () => {
   try {
-    const response = await axios.get('https://mohammed-bin-alhanafia.com/api/Teacher', {
+    const response = await axios.get('https://mohammed-bin-alhanafia.com/api/Teacher/AllTeachers', {
       headers: {
         'Accept': 'application/json'
       }
     });
     teachers.value = response.data.map(teacher => ({
-      id: teacher.teacherId,
+      id: teacher.id,
       name: teacher.name,
-      subject: teacher.subject,
-      role: teacher.role,
-      image: teacher.image || "/src/assets/download.png",
+      subject: teacher.specialty,
+      role: teacher.rank,
+      image: teacher.imgpath || "/src/assets/download.png",
     }));
   } catch (err) {
     error.value = 'عذراً، حدث خطأ أثناء تحميل بيانات المعلمين';
@@ -106,9 +106,9 @@ const sortedTeachers = computed(() => {
   const regularTeachers = teachers.value.filter(t => t.role === "معلم");
   
   return [
-    director,      // Director first
-    ...assistants, // Assistants next
-    ...regularTeachers // Regular teachers last
+    director,
+    ...assistants,
+    ...regularTeachers
   ].filter(Boolean);
 });
 </script>

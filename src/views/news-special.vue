@@ -57,15 +57,25 @@ import axios from 'axios';
 
 const route = useRoute();
 const router = useRouter();
-const newsItem = ref(null);
+const newsItem = ref({
+  title: '',
+  description: '',
+  image: '',
+  date: ''
+});
 const loading = ref(true);
 const error = ref(null);
 
 onMounted(async () => {
   const newsId = route.params.id;
   try {
-    const response = await axios.get(`/api/news/${newsId}`);
-    newsItem.value = response.data;
+    const response = await axios.get(`https://mohammed-bin-alhanafia.com/api/Content/GetById/${newsId}`);
+    newsItem.value = {
+      title: response.data.title,
+      description: response.data.discription,
+      image: response.data.imgpath,
+      date: new Date(response.data.date).toLocaleDateString('ar-SA')
+    };
   } catch (err) {
     error.value = 'عذراً، حدث خطأ أثناء تحميل الخبر';
     console.error('Error fetching news item:', err);

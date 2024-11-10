@@ -3,6 +3,7 @@ import Home from '../views/home.vue'
 import Teachers from '../views/teachers.vue'
 import SpecialStudents from '../views/special-students.vue'
 import News from '../views/news.vue'
+import ManageTeachers from '../views/ManageTeachers.vue'
 const routes = [
   {
     path: '/',
@@ -37,6 +38,11 @@ const routes = [
     path: '/news/:id',
     name: 'NewsSpecial',
     component: () => import('../views/news-special.vue')
+  },
+  {
+    path: '/manage-teachers',
+    name: 'manage-teachers',
+    component: ManageTeachers
   }
 ]
 

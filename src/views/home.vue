@@ -202,7 +202,7 @@
                 >
                   <div class="w-full flex justify-center px-4">
                     <img 
-                      src="../assets/Rectangle 40.png" 
+                      :src="card.image" 
                       alt="Event Image" 
                       class="w-[90%] sm:w-[100%] sm:rounded-xl h-48 sm:h-20 object-cover rounded-3xl" 
                     />
