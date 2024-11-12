@@ -37,7 +37,12 @@ const routes = [
     path: '/news/:id',
     name: 'NewsSpecial',
     component: () => import('../views/news-special.vue')
-  }
+  },
+  {
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: () => import('../views/dashboard/dashIndex.vue')
+  },
 ]
 
 const router = createRouter({
