@@ -265,30 +265,26 @@
             
             <!-- Content Container -->
             <div  
-              class="w-fit sm:w-[43%] py-11 sm:py-12 sm:px-12 rounded-tr-[12.5rem] sm:rounded-tr-[8rem] font-roboto p-8 relative overflow-visible bg-[#DEA15F]"
+              class="w-fit sm:w-[43%] py-11 sm:py-12 sm:px-12 rounded-tr-[12.5rem] sm:rounded-tr-[8rem] 
+              font-roboto p-14 relative overflow-visible bg-[#DEA15F]"
             >
               <div class="relative z-10 flex flex-row-reverse items-center">
                 <!-- Right side text -->
-                <div class="w-[42.5rem] flex sm:pl-10 flex-col justify-center items-center" dir="rtl">
-                  <p class="text-3xl sm:translate-x-6 sm:text-xs text-center text-[#FEFAE1]
-                   font-bold leading-[2.2rem] sm:leading-[1.1rem]">
-                    تأسست مدرسة محمد بن الحنفية <br>
-                    الأبتدائية المختلطة بهدف تقديم تعليم <br>
-                    شامل وممتع للأطفال. نؤمن بأن <br>
-                    التعليم في المراحل المبكرة هو الأساس <br>
-                    لبناء شخصية موازنة ومبعة. رؤيتنا<br>
-                    هي إعداد جيل واعٍ ومتحمس للتعلم،<br>
-                    مع الالتزام بتقديم برامج تعليمية<br>
-                    متطورة مواكبة للعصر
+                <div class="w-[40.5rem] flex sm:pl-10 flex-col justify-center items-center" dir="rtl">
+                  <p class="text-xl w-[90%] sm:w-full sm:p-1 sm:translate-x-6 sm:text-xs text-right text-[#FEFAE1]
+                   font-bold leading-[2.6rem] py-8 px-6 sm:leading-[1.1rem]">
+                   تأسست مدرسة محمد بن الحنفية سنة 2000م نسبة الى ابوالقاسم محمد بن علي بن أبي طالب الهاشمي القريشي .أمه خولة بنت جعفر الحنفية فينسب إليها تمييزاً عن أخويه الحسن والحسين ويكنى أبا القاسم رضي الله عنه وأرضاه
+                  رؤية المدرسة تتمثل في توفير بيئة تعليمية مبتكرة وتطوير المهارات الشخصية ونوفير نظام دعم شامل
+                  
                   </p>
                 </div>
 
                 <!-- Left side image -->
-                <div class="absolute -left-[25%] top-1/2 -translate-y-1/2 w-[37.5rem] z-20">
+                <div class="absolute -left-[30%] top-1/2 -translate-y-1/2 w-[37.5rem] z-20">
                   <img 
                     src="../assets/Rectangle 47.png" 
                     alt="School Image"
-                    class="w-[50%] sm:w-[18%] rounded-2xl"
+                    class="w-[40%] sm:w-[18%] rounded-2xl"
                   />
                 </div>
 
