@@ -59,6 +59,15 @@ const routes = [
     name: 'Login',
     component: () => import('../views/dashboard/login.vue')
   },
+  {
+    path: '/dashboard/student',
+    name: 'StudentDashboard',
+    component: () => import('../views/dashboard/studentDash.vue'),
+    meta: {
+      requiresAuth: true,
+      role: 'student'
+    }
+  }
 ]
 
 const router = createRouter({
@@ -66,22 +75,6 @@ const router = createRouter({
   routes
 })
 
-router.beforeEach((to, from, next) => {
-  // Check if user is authenticated by looking for token in localStorage
-  const isAuthenticated = localStorage.getItem('isAuthenticated')
-  
-  // Case 1: Trying to access protected route while not authenticated
-  if (to.meta.requiresAuth && !isAuthenticated) {
-    next('/login') // Redirect to login page
-  } 
-  // Case 2: Trying to access login page while already authenticated
-  else if (to.path === '/login' && isAuthenticated) {
-    next('/dashboard') // Redirect to dashboard
-  }
-  // Case 3: All other cases - allow navigation
-  else {
-    next()
-  }
-})
+
 
 export default router 
