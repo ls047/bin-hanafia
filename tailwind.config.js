@@ -22,6 +22,11 @@ export default {
         'roboto': ['Roboto', 'sans-serif'],
         'item': ['IBM Plex Sans Arabic', 'sans-serif'],
       },
+      screens: {
+        'sm': '640px',
+        'md': '768px',
+        'lg': '1024px',
+      }
     },
   },
   plugins: [],
