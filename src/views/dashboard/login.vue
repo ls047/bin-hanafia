@@ -76,7 +76,7 @@ const handleLogin = async () => {
 
 .symbol:nth-child(odd) {
   animation-duration: 20s;
-  animation-delay: calc(var(--delay) - 20s);
+  animation-delay: calc(var(--delay) - 7s);
 }
 
 @keyframes float {
