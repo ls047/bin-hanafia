@@ -9,12 +9,12 @@
     <!-- Modal -->
     <div class="flex min-h-full items-center justify-center p-4">
       <div 
-        class="relative w-full max-w-md transform overflow-hidden rounded-lg bg-white p-6 shadow-xl transition-all"
+        class="relative w-full max-w-md transform rounded-3xl bg-white p-6 shadow-xl transition-all"
       >
         <!-- Close Button -->
         <button 
           @click="closeModal" 
-          class="absolute top-4 right-4 rounded-full bg-[#CD8B65] p-2 text-white hover:bg-[#CD8B65]/80"
+          class="absolute -top-3 -right-3 rounded-full bg-orange-accent p-2 text-white hover:bg-secondary"
         >
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -23,17 +23,17 @@
 
         <h2 class="text-2xl font-bold text-center mb-8">معلومات التدريسي</h2>
 
-        <form @submit.prevent="handleSubmit" class="space-y-6">
+        <form @submit.prevent="handleSubmit" class="space-y-6 flex flex-col justify-end">
           <!-- Image Upload -->
-          <div class="flex items-center gap-4">
+          <div class="flex items-center justify-end gap-4">
             <button 
               type="button"
-              class="bg-[#CD8B65] text-white px-6 py-2 rounded-full hover:bg-[#CD8B65]/80"
+              class="bg-orange-accent text-white px-6 py-2 rounded-full hover:hover:bg-secondary"
               @click="triggerFileInput"
             >
               Upload
             </button>
-            <span class="text-lg">اضافة صوره</span>
+            <span class="text-lg">اضافة صورة</span>
             <input
               ref="fileInput"
               type="file"
@@ -46,10 +46,10 @@
           <!-- Name Input -->
           <div class="flex flex-row-reverse items-center gap-4">
             <label class="text-lg">أسم المدرس</label>
-            <input
+            <input dir="rtl"
               type="text"
               v-model="formData.name"
-              class="flex-1 rounded-full border border-[#CD8B65] px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#CD8B65]"
+              class="flex-1 rounded-full border border-orange-accent px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-accent"
               required
             />
           </div>
@@ -57,22 +57,24 @@
           <!-- Specialty Input -->
           <div class="flex flex-row-reverse items-center gap-4">
             <label class="text-lg">التخصص</label>
-            <input
+            <input dir="rtl"
               type="text"
               v-model="formData.specialty"
-              class="flex-1 rounded-full border border-[#CD8B65] px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#CD8B65]"
+              class="flex-1 rounded-full border border-orange-accent px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-accent"
               required
             />
           </div>
 
           <!-- Experience Input -->
           <div class="flex flex-row-reverse items-center gap-4">
-            <label class="text-lg">الخبرة:</label>
-            <input
+            <label class="text-lg">
+              الخبرة
+            </label>
+            <input dir="rtl"
               type="number"
               v-model="formData.expeiance"
-              placeholder="[عدد سنوات الخبرة]"
-              class="flex-1 rounded-full border border-[#CD8B65] px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#CD8B65]"
+              placeholder="عدد سنوات الخبرة"
+              class="flex-1 rounded-full border border-orange-accent px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-accent"
               required
             />
           </div>
@@ -82,32 +84,42 @@
             <div class="flex justify-end">
               <label class="text-lg">نسبة النجاح</label>
             </div>
-            <div class="bg-gray-200 rounded-full h-8 relative">
-              <div 
-                class="h-full bg-[#CD8B65] rounded-full transition-all duration-300"
-                :style="{ width: `${formData.sucsessRate}%` }"
-              >
-                <div class="absolute right-2 top-1/2 -translate-y-1/2 text-black">
-                  {{ formData.sucsessRate }}%
-                </div>
+            <div class="flex items-center gap-8">
+              <!-- Slider Container -->
+              <div class="relative h-4 bg-[#E6E6E6] rounded-full flex-1">
+                <!-- Progress bar -->
+                <div 
+                  class="absolute left-0 top-0 h-full bg-orange-accent/65 rounded-full transition-all"
+                  :style="{ width: `${formData.sucsessRate}%` }"
+                ></div>
+                <!-- Thumb -->
+                <div 
+                  class="absolute top-1/2 -translate-y-1/2 h-6 w-6 rounded-full bg-orange-accent transition-all"
+                  :style="{ left: `calc(${formData.sucsessRate}% - 0.75rem)` }"
+                ></div>
+                <!-- Range Input -->
+                <input
+                  type="range"
+                  v-model="formData.sucsessRate"
+                  min="0"
+                  max="100"
+                  class="absolute top-0 w-full h-full opacity-0 cursor-pointer"
+                />
               </div>
+              <!-- Percentage outside the slider -->
+              <span class="text-xl font-bold text-black min-w-[4rem]">
+                {{ formData.sucsessRate }}%
+              </span>
             </div>
-            <input
-              type="range"
-              v-model="formData.sucsessRate"
-              min="0"
-              max="100"
-              class="w-full"
-            />
           </div>
 
           <!-- Add Rank Input if needed -->
           <div class="flex flex-row-reverse items-center gap-4">
             <label class="text-lg">الدرجة الوظيفية</label>
-            <input
+            <input dir="rtl"
               type="text"
               v-model="formData.rank"
-              class="flex-1 rounded-full border border-[#CD8B65] px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#CD8B65]"
+              class="flex-1 rounded-full border border-orange-accent px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-accent"
               required
             />
           </div>
@@ -116,9 +128,9 @@
           <div class="flex justify-center mt-8">
             <button
               type="submit"
-              class="bg-[#CD8B65] text-white px-12 py-2 rounded-full hover:bg-[#CD8B65]/80 text-lg"
+              class="bg-orange-accent text-white px-12 py-2 rounded-full hover:bg-orange-accent/80 text-lg"
             >
-              اضافه
+              {{ isEditing ? 'حفظ' : 'اضافة' }}
             </button>
           </div>
         </form>

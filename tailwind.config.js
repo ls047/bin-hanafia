@@ -10,7 +10,8 @@ export default {
       colors: {
         primary: "#EC8A20", // Orange
         secondary: "#C98142", // Brown/Orange
-        accent: "#38C5CA", // Turquoise
+        accent: "#38C5CA", // Turquoise,
+        "orange-accent": "#CE8849",
         light: "#FEFAE1",
         "light-cream": "#F0D4A9",
       },

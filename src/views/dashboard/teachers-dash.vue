@@ -1,57 +1,41 @@
 <template>
   <div class="container min-h-screen bg-light">
-    <div class="container mx-auto px-0 py-[8rem] sm:py-[10rem]">
-      <button 
-        @click="openAddModal"
-        class="rounded-md bg-secondary px-4 py-2 text-light"
-      >
-        إضافة مدرسين
-      </button>
-      <div class="mt-20 pb-44 relative grid grid-cols-1 gap-8 p-8 md:grid-cols-2 lg:grid-cols-3 gap-y-36 place-items-center">
-        <div
-          v-for="(teacher, index) in sortedTeachers"
-          :key="teacher.id"
-          class="group relative flex h-[30rem] w-[70%] flex-col items-center overflow-hidden !rounded-b-none bg-[#DEA15F] pt-6 transition-all duration-300 hover:shadow-lg"
-          :class="[
-            {
-              'rounded-r-[168px] sm:rounded-md': index < 3 && index % 3 === 1,
-              'rounded-t-[168px] pt-6': index < 3 && index % 3 === 0,
-              'rounded-l-[168px] sm:rounded-md pr-6': index < 3 && index % 3 === 2,
-              'rounded-t-[168px] sm:rounded-md pt-6': index >= 3,
-            },
-            teacher.rank === 'مدير' ? 'lg:col-start-2 lg:row-start-1 rounded-t-[168px] lg:-translate-y-12' : '',
-            teacher.rank === 'معاون' && index === 1 ? 'lg:col-start-1 lg:row-start-1 lg:translate-y-20 sm:translate-x-0 lg:translate-x-24' : '',
-            teacher.rank === 'معاون' && index === 2 ? 'lg:col-start-3 lg:row-start-1 lg:translate-y-20 sm:translate-x-0 lg:-translate-x-24' : '',
-          ]"
+    <div class="container mx-auto px-0 ">
+      <div class="flex justify-center">
+        <button
+          @click="openAddModal"
+          class="rounded-3xl bg-secondary text-2xl px-4 py-2 text-light"
         >
-          <div class="h-full w-full">
-            <div class="absolute right-2 top-2 z-10 flex gap-2">
-              <button 
+          إضافة تدريسي
+        </button>
+      </div>
+      <div
+        class="relative mt-20 grid grid-cols-1 place-items-center gap-8 gap-y-36 p-8 md:grid-cols-2 lg:grid-cols-3"
+      >
+        <div
+          v-for="teacher in sortedTeachers"
+          :key="teacher.id"
+          class="group relative flex h-[30rem] w-[70%] flex-col items-center overflow-visible !rounded-b-none bg-[#DEA15F] pt-6 transition-all duration-300 hover:shadow-lg"
+        >
+          <div class="h-full w-full overflow-hidden">
+            <div
+              class="absolute z-10 flex -translate-x-6 -translate-y-8 transform flex-col gap-2"
+            >
+              <button
                 @click.prevent="handleEdit(teacher.id)"
-                class="rounded-full bg-secondary p-2 text-white hover:bg-secondary/80 transition-colors"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                </svg>
+                <img src="/src/assets/pin_dash.svg" alt="Edit" class="w-12" />
               </button>
-              <button 
+              <button
                 @click.prevent="handleDelete(teacher.id)"
-                class="rounded-full bg-red-500 p-2 text-white hover:bg-red-600 transition-colors"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                </svg>
+                <img src="/src/assets/X_dash.svg" alt="Delete" class="w-12" />
               </button>
             </div>
             <img
               :src="teacher.image"
               :alt="teacher.name"
               class="h-full w-full !rounded-b-none object-cover"
-              :class="{
-                'rounded-r-[168px]': index < 3 && index % 3 === 0,
-                'rounded-t-[168px]': index < 3 && index % 3 === 1,
-                'rounded-l-[168px]': index < 3 && index % 3 === 2,
-              }"
             />
             <div
               class="absolute bottom-0 h-1/4 w-full bg-[#CE8849] text-center text-white"
@@ -65,7 +49,7 @@
         </div>
       </div>
     </div>
-    
+
     <TeacherFormModal
       :is-open="isModalOpen"
       :is-editing="isEditing"
@@ -73,19 +57,48 @@
       @close="closeModal"
       @submit="handleSubmit"
     />
+
+    <div
+      v-if="showDeleteModal"
+      dir="rtl"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+    >
+      <div class="w-[90%] max-w-md rounded-lg bg-light p-6 shadow-xl">
+        <h3 class="mb-4 text-xl font-bold text-gray-900">تأكيد الحذف</h3>
+        <p class="mb-6 text-gray-600">
+          هل أنت متأكد من حذف هذا المدرس؟ لا يمكن التراجع عن هذا الإجراء.
+        </p>
+        <div class="flex w-full justify-end gap-3">
+          <button
+            @click="showDeleteModal = false"
+            class="w-1/2 rounded-md bg-gray-200 px-4 py-2 text-gray-800 transition-colors hover:bg-gray-300"
+          >
+            إلغاء
+          </button>
+          <button
+            @click="confirmDelete"
+            class="w-1/2 rounded-md bg-red-500 px-4 py-2 text-white transition-colors hover:bg-red-600"
+          >
+            حذف
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script setup>
 import { ref, computed, onMounted } from "vue";
 import axios from "axios";
-import TeacherFormModal from '../../components/TeacherFormModal.vue';
+import TeacherFormModal from "../../components/TeacherFormModal.vue";
 
 const teachers = ref([]);
 const loading = ref(true);
 const error = ref(null);
-const isModalOpen = ref(false)
-const isEditing = ref(false)
-const selectedTeacher = ref(null)
+const isModalOpen = ref(false);
+const isEditing = ref(false);
+const selectedTeacher = ref(null);
+const showDeleteModal = ref(false);
+const teacherToDelete = ref(null);
 
 onMounted(async () => {
   try {
@@ -125,7 +138,7 @@ const sortedTeachers = computed(() => {
 });
 
 const handleEdit = (teacherId) => {
-  const teacher = teachers.value.find(t => t.id === teacherId)
+  const teacher = teachers.value.find((t) => t.id === teacherId);
   if (teacher) {
     selectedTeacher.value = {
       id: teacher.id,
@@ -134,35 +147,43 @@ const handleEdit = (teacherId) => {
       expeiance: teacher.expeiance,
       sucsessRate: teacher.sucsessRate,
       rank: teacher.rank,
-      imgpath: teacher.imgpath
-    }
-    isEditing.value = true
-    isModalOpen.value = true
+      imgpath: teacher.imgpath,
+    };
+    isEditing.value = true;
+    isModalOpen.value = true;
   }
-}
+};
 
-const handleDelete = async (teacherId) => {
-  if (confirm('هل أنت متأكد من حذف هذا المدرس؟')) {
-    try {
-      await axios.delete(`https://mohammed-bin-alhanafia.com/api/Teacher/DeleteTeacher/${teacherId}`);
-      teachers.value = teachers.value.filter(t => t.id !== teacherId);
-    } catch (err) {
-      console.error('Error deleting teacher:', err);
-      // Add error handling as needed
-    }
+const handleDelete = (teacherId) => {
+  teacherToDelete.value = teacherId;
+  showDeleteModal.value = true;
+};
+
+const confirmDelete = async () => {
+  try {
+    await axios.delete(
+      `https://mohammed-bin-alhanafia.com/api/Teacher/DeleteTeacher/${teacherToDelete.value}`,
+    );
+    teachers.value = teachers.value.filter(
+      (t) => t.id !== teacherToDelete.value,
+    );
+    showDeleteModal.value = false;
+  } catch (err) {
+    console.error("Error deleting teacher:", err);
+    alert("حدث خطأ أثناء حذف المدرس");
   }
 };
 
 const openAddModal = () => {
-  isEditing.value = false
-  selectedTeacher.value = null
-  isModalOpen.value = true
-}
+  isEditing.value = false;
+  selectedTeacher.value = null;
+  isModalOpen.value = true;
+};
 
 const closeModal = () => {
-  isModalOpen.value = false
-  selectedTeacher.value = null
-}
+  isModalOpen.value = false;
+  selectedTeacher.value = null;
+};
 
 const handleSubmit = async (formData) => {
   try {
@@ -172,12 +193,13 @@ const handleSubmit = async (formData) => {
         formData,
         {
           headers: {
-            'Content-Type': 'multipart/form-data',
+            "Content-Type": "multipart/form-data",
           },
-        }
-      )
-      // Update the local teachers array with all fields
-      const index = teachers.value.findIndex(t => t.id === selectedTeacher.value.id)
+        },
+      );
+      const index = teachers.value.findIndex(
+        (t) => t.id === selectedTeacher.value.id,
+      );
       if (index !== -1) {
         teachers.value[index] = {
           id: response.data.id,
@@ -187,20 +209,21 @@ const handleSubmit = async (formData) => {
           sucsessRate: response.data.sucsessRate,
           rank: response.data.rank,
           imgpath: response.data.imgpath,
-          image: `https://mohammed-bin-alhanafia.com/images/${response.data.imgpath}` || "/src/assets/download.png",
-        }
+          image:
+            `https://mohammed-bin-alhanafia.com/images/${response.data.imgpath}` ||
+            "/src/assets/download.png",
+        };
       }
     } else {
       const response = await axios.post(
-        'https://mohammed-bin-alhanafia.com/api/Teacher',
+        "https://mohammed-bin-alhanafia.com/api/Teacher",
         formData,
         {
           headers: {
-            'Content-Type': 'multipart/form-data',
+            "Content-Type": "multipart/form-data",
           },
-        }
-      )
-      // Add new teacher with all fields
+        },
+      );
       teachers.value.push({
         id: response.data.id,
         name: response.data.name,
@@ -209,13 +232,15 @@ const handleSubmit = async (formData) => {
         sucsessRate: response.data.sucsessRate,
         rank: response.data.rank,
         imgpath: response.data.imgpath,
-        image: `https://mohammed-bin-alhanafia.com/images/${response.data.imgpath}` || "/src/assets/download.png",
-      })
+        image:
+          `https://mohammed-bin-alhanafia.com/images/${response.data.imgpath}` ||
+          "/src/assets/download.png",
+      });
     }
-    closeModal()
+    closeModal();
   } catch (error) {
-    console.error('Error submitting teacher:', error)
-    alert('حدث خطأ أثناء حفظ البيانات')
+    console.error("Error submitting teacher:", error);
+    alert("حدث خطأ أثناء حفظ البيانات");
   }
-}
+};
 </script>
