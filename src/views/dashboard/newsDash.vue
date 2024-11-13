@@ -1,221 +1,251 @@
 <template>
-    <div class=" bg-[#FEFAE1] flex font-item">
-      <!-- Content Container -->
-      <div class="relative z-10 container mx-auto px-4 py-[8rem] flex flex-col justify-center gap-32 items-center">
-        <button 
-          @click="showAddModal = true"
-          class="bg-[#EC8A20] text-white text-2xl px-14 py-4 rounded-full
-          justify-center items-center
-                   transition-all duration-300 hover:scale-110 hover:bg-[#d67b15] hover:shadow-lg">
-          إضافة مقال
-        </button>
-  
-        <!-- News Grid -->
-        <div v-if="loading" class="flex justify-center items-center min-h-[20rem]">
-          <div class="animate-spin rounded-full h-[3rem] w-[3rem] border-4 border-[#EC8A20] border-t-transparent">
+  <div class="flex bg-light font-item">
+    <!-- Content Container -->
+    <div
+      class="container relative z-10 mx-auto flex flex-col items-center justify-center gap-8 px-4"
+    >
+      <button
+        @click="showAddModal = true"
+        class="rounded-3xl bg-secondary px-4 py-2 text-2xl mt-6 text-light transition-all duration-300 hover:bg-secondary/80"
+      >
+        إضافة مقال
+      </button>
 
+      <!-- News Grid -->
+      <div
+        v-if="loading"
+        class="flex min-h-[20rem] items-center justify-center"
+      >
+        <div
+          class="border-orange-accent h-[3rem] w-[3rem] animate-spin rounded-full border-4 border-t-transparent"
+        ></div>
+      </div>
+
+      <div v-else-if="error" class="min-h-[20rem] text-center text-red-500">
+        {{ error }}
+      </div>
+      <!-- cards section -->
+      <div
+        v-else
+        class="relative grid w-full grid-cols-1 place-items-center gap-8 p-8 md:grid-cols-2 lg:grid-cols-3"
+      >
+        <div
+          v-for="(card, index) in newsItems"
+          :key="index"
+          class="group relative flex h-[30rem] w-[70%] flex-col items-center overflow-visible bg-[#DEA15F] pt-6 transition-all duration-300 hover:shadow-lg"
+        >
+          <!-- Action buttons -->
+          <div
+            class="absolute left-0 z-10 flex -translate-x-4 -translate-y-8 transform flex-col gap-2"
+          >
+            <button @click="pinNews(card.id)">
+              <img src="/src/assets/pin_dash.svg" alt="Edit" class="w-12" />
+            </button>
+            <button @click="deleteNews(card.id)">
+              <img src="/src/assets/X_dash.svg" alt="Delete" class="w-12" />
+            </button>
+          </div>
+
+          <!-- Card content -->
+          <div class="h-full w-full overflow-hidden">
+            <img
+              :src="card.image"
+              alt="News Image"
+              class="h-full w-full object-cover"
+            />
+            <div
+              class="absolute bottom-0 h-1/4 w-full bg-[#CE8849] text-center text-white"
+            >
+              <div class="mt-8 flex flex-col items-center justify-center">
+                <h3 class="text-xl font-bold">{{ card.title }}</h3>
+                <p class="mt-1 line-clamp-2 text-base">
+                  {{ card.description }}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
-  
-        <div v-else-if="error" class="text-center text-red-500 min-h-[20rem]">
-          {{ error }}
-        </div>
-          <!-- cards section -->
-              <div v-else class="grid ml-16 sm:ml-10 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
-                <div v-for="(card, index) in newsItems" 
-                  :key="index"
-                  class="bg-[#DEA15F6E] w-full flex flex-col items-center py-4 relative"
-                  :class="[
-                    {
-                      'rounded-b-3xl rounded-tl-3xl': index % 3 === 0,
-                      'rounded-3xl': index % 3 === 1,
-                      'rounded-b-3xl rounded-tr-3xl': index % 3 === 2,
-                    },
-                  ]"
-                >
-                  <!-- Delete Icon -->
-                  <img 
-                    src="../../assets/X_dash.svg" 
-                    alt="Delete" 
-                    class="absolute -top-6 -right-6 w-14 cursor-pointer hover:scale-110
-                     transition-transform"
-                    @click="deleteNews(card.id)"
-                  />
-                  
-                  <!-- Pin Icon -->
-                  <img 
-                    src="../../assets/pin_dash.svg" 
-                    alt="Pin" 
-                    class="absolute top-8 -right-6 w-14 cursor-pointer hover:scale-110
-                     transition-transform"
-                    @click="pinNews(card.id)"
-                  />
-                  
-                  <div class="w-full flex justify-center px-4">
-                    <img 
-                      :src="card.image" 
-                      alt="Event Image" 
-                      class="w-[90%] sm:w-[100%] sm:rounded-xl h-48 sm:h-20 object-cover rounded-3xl" 
-                    />
-                  </div>
-                  <div class="p-4 text-center w-full">
-                    <h3 class="text-lg sm:text-sm font-semibold mb-2">{{ card.title }}</h3>
-                    <p class="text-sm w-[90%] mx-auto sm:w-[90%] sm:text-xs text-gray-600 mb-4
-                      break-words whitespace-pre-wrap">{{ card.description }}</p>
-                    <button 
-                      @click="router.push(`/news/${card.id}`)"
-                      class="bg-[#C98142] text-white px-14 py-3 sm:px-4 sm:py-1
-                      rounded-full  hover:transition-colors duration-700 sm:rounded-2xl 
-                      text-lg sm:text-sm hover:scale-105"
-                    >
-                      اقرأ المزيد
-                    </button>
-                  </div>
-                </div>
-              </div>
       </div>
     </div>
+  </div>
 
-    <!-- Delete Confirmation Modal -->
-    <div v-if="showDeleteModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-      <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full mx-4 text-center">
-        <h3 class="text-xl font-semibold mb-4">تأكيد الحذف</h3>
-        <p class="mb-6">هل أنت متأكد من حذف هذا المقال؟</p>
-        <div class="flex justify-center gap-4">
-          <button 
-            @click="confirmDelete"
-            class="bg-red-500 text-white px-6 py-2 rounded-lg hover:bg-red-600"
-          >
-            حذف
-          </button>
-          <button 
-            @click="showDeleteModal = false"
-            class="bg-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-400"
-          >
-            إلغاء
-          </button>
-        </div>
+  <!-- Delete Confirmation Modal -->
+  <div
+    v-if="showDeleteModal"
+    dir="rtl"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+  >
+    <div class="w-[90%] max-w-md rounded-lg bg-light p-6 shadow-xl">
+      <h3 class="mb-4 text-xl font-bold text-gray-900">تأكيد الحذف</h3>
+      <p class="mb-6 text-gray-600">
+        هل أنت متأكد من حذف هذا المقال؟ لا يمكن التراجع عن هذا الإجراء.
+      </p>
+      <div class="flex w-full justify-end gap-3">
+        <button
+          @click="showDeleteModal = false"
+          class="w-1/2 rounded-md bg-gray-200 px-4 py-2 text-gray-800 transition-colors hover:bg-gray-300"
+        >
+          إلغاء
+        </button>
+        <button
+          @click="confirmDelete"
+          class="w-1/2 rounded-md bg-red-500 px-4 py-2 text-white transition-colors hover:bg-red-600"
+        >
+          حذف
+        </button>
       </div>
     </div>
+  </div>
 
-    <NewsFormModal
-      :show="showPinModal"
-      :initial-data="newsItems.find(item => item.id === selectedNewsId)"
-      @close="showPinModal = false"
-      @submit="handlePinSubmit"
-    />
+  <NewsFormModal
+    :show="showPinModal"
+    :is-editing="true"
+    :initial-data="newsItems.find((item) => item.id === selectedNewsId)"
+    @close="showPinModal = false"
+    @submit="handlePinSubmit"
+  />
 
-    <NewsFormModal
-      :show="showAddModal"
-      :initial-data="{ title: '', description: '', image: '' }"
-      @close="showAddModal = false"
-      @submit="handleAddSubmit"
-    />
-  </template>
-  
-  <script setup>
-  import { ref, onMounted } from 'vue';
-  import { useRouter } from 'vue-router';
-  import NewsFormModal from '../../components/newsFormModal.vue';
-  import axios from 'axios';
-  
-  const newsItems = ref([]);
-  const loading = ref(true);
-  const error = ref(null);
-  const router = useRouter();
+  <NewsFormModal
+    :show="showAddModal"
+    :is-editing="false"
+    :initial-data="{ title: '', description: '', image: '' }"
+    @close="showAddModal = false"
+    @submit="handleAddSubmit"
+  />
+</template>
 
-  const showDeleteModal = ref(false);
-  const showPinModal = ref(false);
-  const selectedNewsId = ref(null);
-  const showAddModal = ref(false);
+<script setup>
+import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
+import NewsFormModal from "../../components/newsFormModal.vue";
+import axios from "axios";
 
-  const deleteNews = (id) => {
-    selectedNewsId.value = id;
-    showDeleteModal.value = true;
-  };
+const newsItems = ref([]);
+const loading = ref(true);
+const error = ref(null);
+const router = useRouter();
 
-  const pinNews = (id) => {
-    selectedNewsId.value = id;
-    const news = newsItems.value.find(item => item.id === id);
-    showPinModal.value = true;
-  };
+const showDeleteModal = ref(false);
+const showPinModal = ref(false);
+const selectedNewsId = ref(null);
+const showAddModal = ref(false);
 
-  const confirmDelete = async () => {
-    try {
-      await axios.delete(`https://mohammed-bin-alhanafia.com/api/Content/${selectedNewsId.value}`);
-      await fetchNews();
-    } catch (err) {
-      error.value = 'Failed to delete article';
-      console.error(err);
-    } finally {
-      showDeleteModal.value = false;
-    }
-  };
+const deleteNews = (id) => {
+  selectedNewsId.value = id;
+  showDeleteModal.value = true;
+};
 
-  const handlePinSubmit = async (formData) => {
-    try {
-      await axios.put(`https://mohammed-bin-alhanafia.com/api/Content/${selectedNewsId.value}`, {
-        title: formData.title,
-        discription: formData.description,
-        imgpath: formData.image,
-        date: new Date().toISOString()
-      });
-      await fetchNews();
-    } catch (err) {
-      error.value = 'Failed to update article';
-      console.error(err);
-    } finally {
-      showPinModal.value = false;
-    }
-  };
+const pinNews = (id) => {
+  selectedNewsId.value = id;
+  const news = newsItems.value.find((item) => item.id === id);
+  showPinModal.value = true;
+};
 
-  const handleAddSubmit = async (formData) => {
-    try {
-      await axios.post('https://mohammed-bin-alhanafia.com/api/Content', {
-        title: formData.title,
-        discription: formData.description,
-        imgpath: formData.image,
-        date: new Date().toISOString()
-      });
-      await fetchNews();
-    } catch (err) {
-      error.value = 'Failed to add article';
-      console.error(err);
-    } finally {
-      showAddModal.value = false;
-    }
-  };
-
-  const fetchNews = async () => {
-    loading.value = true;
-    try {
-      const { data } = await axios.get('https://mohammed-bin-alhanafia.com/api/Content/AllContent');
-      newsItems.value = data.map(item => ({
-        id: item.id,
-        title: item.title,
-        description: item.discription,
-        image: item.imgpath || '../../assets/Rectangle 40.png',
-        date: item.date
-      }));
-    } catch (err) {
-      error.value = 'Failed to load news articles';
-      console.error(err);
-    } finally {
-      loading.value = false;
-    }
-  };
-
-  onMounted(() => {
-    fetchNews();
-  });
-  </script>
-  
-  <style scoped>
-  .line-clamp-3 {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+const confirmDelete = async () => {
+  try {
+    await axios.delete(
+      `https://mohammed-bin-alhanafia.com/api/Content`,
+      {
+        data: {
+          id: selectedNewsId.value
+        },
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+    await fetchNews();
+    showDeleteModal.value = false;
+  } catch (err) {
+    error.value = "Failed to delete article: " + (err.response?.data?.message || err.message);
+    console.error(err);
   }
-  </style>
-  
+};
+
+const handlePinSubmit = async (formData) => {
+  try {
+    loading.value = true;
+    const response = await axios.put(
+      `https://mohammed-bin-alhanafia.com/api/Content/${selectedNewsId.value}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      },
+    );
+    
+    if (response.data) {
+      await fetchNews();
+    }
+  } catch (err) {
+    error.value = "Failed to update article: " + (err.response?.data?.message || err.message);
+    console.error(err);
+  } finally {
+    showPinModal.value = false;
+    loading.value = false;
+  }
+};
+
+const handleAddSubmit = async (formData) => {
+  try {
+    loading.value = true;
+    const response = await axios.post(
+      "https://mohammed-bin-alhanafia.com/api/Content",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      },
+    );
+    
+    if (response.data) {
+      await fetchNews();
+    }
+  } catch (err) {
+    error.value = "Failed to add article: " + (err.response?.data?.message || err.message);
+    console.error(err);
+  } finally {
+    showAddModal.value = false;
+    loading.value = false;
+  }
+};
+
+const fetchNews = async () => {
+  loading.value = true;
+  try {
+    const { data } = await axios.get(
+      "https://mohammed-bin-alhanafia.com/api/Content/AllContent",
+    );
+    newsItems.value = data.map((item) => ({
+      id: item.id,
+      title: item.title,
+      description: item.discription,
+      image: item.imgpath 
+        ? `https://mohammed-bin-alhanafia.com/images/${item.imgpath}`
+        : new URL('../../assets/Rectangle 40.png', import.meta.url).href,
+      date: item.date,
+      imgpath: item.imgpath
+    }));
+  } catch (err) {
+    error.value = "Failed to load news articles";
+    console.error(err);
+  } finally {
+    loading.value = false;
+  }
+};
+
+onMounted(() => {
+  fetchNews();
+});
+</script>
+
+<style scoped>
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+</style>

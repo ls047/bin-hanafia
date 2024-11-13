@@ -103,12 +103,7 @@ const teacherToDelete = ref(null);
 onMounted(async () => {
   try {
     const response = await axios.get(
-      "https://mohammed-bin-alhanafia.com/api/Teacher/AllTeachers",
-      {
-        headers: {
-          Accept: "application/json",
-        },
-      },
+      "https://mohammed-bin-alhanafia.com/api/Teacher/AllTeachers"
     );
     teachers.value = response.data.map((teacher) => ({
       id: teacher.id,
@@ -118,7 +113,9 @@ onMounted(async () => {
       sucsessRate: teacher.sucsessRate,
       rank: teacher.rank,
       imgpath: teacher.imgpath,
-      image: `images/${teacher.imgpath}` || "/src/assets/download.png",
+      image: teacher.imgpath 
+        ? `https://mohammed-bin-alhanafia.com/images/${teacher.imgpath}`
+        : new URL('../../assets/download.png', import.meta.url).href,
     }));
   } catch (err) {
     error.value = "عذراً، حدث خطأ أثناء تحميل بيانات المعلمين";
@@ -162,15 +159,21 @@ const handleDelete = (teacherId) => {
 const confirmDelete = async () => {
   try {
     await axios.delete(
-      `https://mohammed-bin-alhanafia.com/api/Teacher/DeleteTeacher/${teacherToDelete.value}`,
+      `https://mohammed-bin-alhanafia.com/api/Teacher`,
+      {
+        data: {
+          id: teacherToDelete.value
+        },
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
     );
-    teachers.value = teachers.value.filter(
-      (t) => t.id !== teacherToDelete.value,
-    );
+    teachers.value = teachers.value.filter(t => t.id !== teacherToDelete.value);
     showDeleteModal.value = false;
   } catch (err) {
     console.error("Error deleting teacher:", err);
-    alert("حدث خطأ أثناء حذف المدرس");
+    error.value = "Failed to delete teacher: " + (err.response?.data?.message || err.message);
   }
 };
 
@@ -195,24 +198,17 @@ const handleSubmit = async (formData) => {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        },
+        }
       );
-      const index = teachers.value.findIndex(
-        (t) => t.id === selectedTeacher.value.id,
-      );
+      const updatedTeacher = {
+        ...response.data,
+        image: response.data.imgpath 
+          ? `https://mohammed-bin-alhanafia.com/images/${response.data.imgpath}`
+          : new URL('../../assets/download.png', import.meta.url).href,
+      };
+      const index = teachers.value.findIndex(t => t.id === selectedTeacher.value.id);
       if (index !== -1) {
-        teachers.value[index] = {
-          id: response.data.id,
-          name: response.data.name,
-          specialty: response.data.specialty,
-          expeiance: response.data.expeiance,
-          sucsessRate: response.data.sucsessRate,
-          rank: response.data.rank,
-          imgpath: response.data.imgpath,
-          image:
-            `https://mohammed-bin-alhanafia.com/images/${response.data.imgpath}` ||
-            "/src/assets/download.png",
-        };
+        teachers.value[index] = updatedTeacher;
       }
     } else {
       const response = await axios.post(
@@ -222,20 +218,15 @@ const handleSubmit = async (formData) => {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        },
+        }
       );
-      teachers.value.push({
-        id: response.data.id,
-        name: response.data.name,
-        specialty: response.data.specialty,
-        expeiance: response.data.expeiance,
-        sucsessRate: response.data.sucsessRate,
-        rank: response.data.rank,
-        imgpath: response.data.imgpath,
-        image:
-          `https://mohammed-bin-alhanafia.com/images/${response.data.imgpath}` ||
-          "/src/assets/download.png",
-      });
+      const newTeacher = {
+        ...response.data,
+        image: response.data.imgpath 
+          ? `https://mohammed-bin-alhanafia.com/images/${response.data.imgpath}`
+          : new URL('../../assets/download.png', import.meta.url).href,
+      };
+      teachers.value.push(newTeacher);
     }
     closeModal();
   } catch (error) {
