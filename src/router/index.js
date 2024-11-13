@@ -3,6 +3,7 @@ import Home from '../views/home.vue'
 import Teachers from '../views/teachers.vue'
 import SpecialStudents from '../views/special-students.vue'
 import News from '../views/news.vue'
+import TeachersDash from '../views/dashboard/teachers-dash.vue'
 const routes = [
   {
     path: '/',
