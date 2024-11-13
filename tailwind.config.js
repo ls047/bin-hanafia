@@ -23,11 +23,6 @@ export default {
         xs: "475px",
         sm: { max: "639px" },
       },
-      screens: {
-        'sm': '640px',
-        'md': '768px',
-        'lg': '1024px',
-      }
     },
   },
   plugins: [],
