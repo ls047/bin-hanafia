@@ -55,6 +55,9 @@ import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 
+const BASE_API = 'https://mohammed-bin-alhanafia.com/api'
+const IMAGE_BASE_URL = 'https://mohammed-bin-alhanafia.com/images'
+
 const route = useRoute();
 const router = useRouter();
 const newsItem = ref({
@@ -69,11 +72,11 @@ const error = ref(null);
 onMounted(async () => {
   const newsId = route.params.id;
   try {
-    const response = await axios.get(`https://mohammed-bin-alhanafia.com/api/Content/GetById/${newsId}`);
+    const response = await axios.get(`${BASE_API}/Content/GetById/${newsId}`);
     newsItem.value = {
       title: response.data.title,
       description: response.data.discription,
-      image: response.data.imgpath,
+      image: response.data.imgpath ? `${IMAGE_BASE_URL}/${response.data.imgpath}` : null,
       date: new Date(response.data.date).toLocaleDateString('ar-SA')
     };
   } catch (err) {

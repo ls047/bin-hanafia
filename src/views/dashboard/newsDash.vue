@@ -120,6 +120,7 @@ import { useRouter } from "vue-router";
 import NewsFormModal from "../../components/newsFormModal.vue";
 import axios from "axios";
 
+const BASE_API = 'https://mohammed-bin-alhanafia.com/api';
 const newsItems = ref([]);
 const loading = ref(true);
 const error = ref(null);
@@ -144,14 +145,10 @@ const pinNews = (id) => {
 const confirmDelete = async () => {
   try {
     await axios.delete(
-      `https://mohammed-bin-alhanafia.com/api/Content`,
+      `${BASE_API}/Content`,
       {
-        data: {
-          id: selectedNewsId.value
-        },
-        headers: {
-          'Content-Type': 'application/json'
-        }
+        data: { id: selectedNewsId.value },
+        headers: { 'Content-Type': 'application/json' }
       }
     );
     await fetchNews();
@@ -165,14 +162,20 @@ const confirmDelete = async () => {
 const handlePinSubmit = async (formData) => {
   try {
     loading.value = true;
+    const form = new FormData();
+    form.append('Id', selectedNewsId.value);
+    form.append('Title', formData.title);
+    form.append('Discription', formData.description);
+    if (formData.image) {
+      form.append('Img', formData.image);
+    }
+
     const response = await axios.put(
-      `https://mohammed-bin-alhanafia.com/api/Content/${selectedNewsId.value}`,
-      formData,
+      `${BASE_API}/Content`,
+      form,
       {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      },
+        headers: { 'Content-Type': 'multipart/form-data' }
+      }
     );
     
     if (response.data) {
@@ -190,14 +193,19 @@ const handlePinSubmit = async (formData) => {
 const handleAddSubmit = async (formData) => {
   try {
     loading.value = true;
+    const form = new FormData();
+    form.append('Title', formData.title);
+    form.append('Discription', formData.description);
+    if (formData.image) {
+      form.append('Img', formData.image);
+    }
+
     const response = await axios.post(
-      "https://mohammed-bin-alhanafia.com/api/Content",
-      formData,
+      `${BASE_API}/Content`,
+      form,
       {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      },
+        headers: { 'Content-Type': 'multipart/form-data' }
+      }
     );
     
     if (response.data) {
@@ -215,9 +223,7 @@ const handleAddSubmit = async (formData) => {
 const fetchNews = async () => {
   loading.value = true;
   try {
-    const { data } = await axios.get(
-      "https://mohammed-bin-alhanafia.com/api/Content/AllContent",
-    );
+    const { data } = await axios.get(`${BASE_API}/Content/AllContent`);
     newsItems.value = data.map((item) => ({
       id: item.id,
       title: item.title,

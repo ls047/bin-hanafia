@@ -125,26 +125,24 @@ watch(() => props.initialData, (newData) => {
 }, { immediate: true, deep: true });
 
 const handleImageChange = (event) => {
-  formData.value.image = event.target.files[0];
+  const file = event.target.files[0];
+  if (file) {
+    formData.value.image = file;
+  }
 };
 
 const handleSubmit = () => {
-  const formDataToSubmit = new FormData();
-  
+  const submissionData = {
+    title: formData.value.title,
+    description: formData.value.description,
+    image: formData.value.image
+  };
+
   if (props.isEditing) {
-    formDataToSubmit.append('id', props.initialData.id);
+    submissionData.id = props.initialData.id;
   }
   
-  formDataToSubmit.append('title', formData.value.title);
-  formDataToSubmit.append('discription', formData.value.description);
-  
-  if (formData.value.image) {
-    formDataToSubmit.append('image', formData.value.image);
-  }
-  
-  formDataToSubmit.append('date', new Date().toISOString());
-  
-  emit('submit', formDataToSubmit);
+  emit('submit', submissionData);
 };
 
 const triggerFileInput = () => {

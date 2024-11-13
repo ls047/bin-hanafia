@@ -390,56 +390,43 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 
+const BASE_API = 'https://mohammed-bin-alhanafia.com/api'
+const IMAGE_BASE_URL = 'https://mohammed-bin-alhanafia.com/images'
+
 const router = useRouter()
 const isMenuOpen = ref(false)
 const cards = ref([
+  // Default cards as fallback
   {
-    image: "/src/assets/Rectangle 40.png",
+    image: new URL('../assets/Rectangle 40.png', import.meta.url).href,
     title: "Event Title 1",
     description: "Event Description 1",
     buttonText: "المزيد"
   },
-  {
-    image: "/src/assets/Rectangle 40.png",
-    title: "Event Title 2",
-    description: "Event Description 2",
-    buttonText: "المزيد"
-  },
-  {
-    image: "/src/assets/Rectangle 40.png",
-    title: "Event Title 3",
-    description: "Event Description 3",
-    buttonText: "المزيد"
-  },
-  {
-    image: "/src/assets/Rectangle 40.png",
-    title: "Event Title 4",
-    description: "Event Description 4",
-    buttonText: "المزيد"
-  },
-  {
-    image: "/src/assets/Rectangle 40.png",
-    title: "Event Title 5",
-    description: "Event Description 5",
-    buttonText: "المزيد"
-  },
-  {
-    image: "/src/assets/Rectangle 40.png",
-    title: "Event Title 6",
-    description: "Event Description 6",
-    buttonText: "المزيد"
-  }
+  // ... other default cards ...
 ])
 const buttonLabel = "المزيد من المقالات"
 
 const currentTranslate = ref(0)
-const containerWidth = ref(1200) // Fixed container width
+const containerWidth = ref(1200)
 const visibleCards = 3
 
-onMounted(() => {
-  const container = document.querySelector('.cards-container')
-  if (container) {
-    cardWidth.value = container.offsetWidth / visibleCards
+// Fetch data from API on mount
+onMounted(async () => {
+  try {
+    const response = await axios.get(`${BASE_API}/Content/AllContent`)
+    cards.value = response.data.map(item => ({
+      id: item.id,
+      image: item.imgpath 
+        ? `${IMAGE_BASE_URL}/${item.imgpath}`
+        : new URL('../assets/Rectangle 40.png', import.meta.url).href,
+      title: item.title,
+      description: item.description,
+      buttonText: "المزيد"
+    }))
+  } catch (error) {
+    console.error("Error fetching cards data:", error)
+    // Fallback to default cards if API fails
   }
 })
 
@@ -451,32 +438,6 @@ const navigateTo = (path) => {
 const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value
 }
-
-// Fetch data from API on mount
-onMounted(async () => {
-  try {
-    const response = await axios.get('https://mohammed-bin-alhanafia.com/api/Content/AllContent')
-    cards.value = response.data.map(item => ({
-      id: item.id,
-      image: item.image || "/src/assets/Rectangle 40.png", // fallback image
-      title: item.title,
-      description: item.description,
-      buttonText: "المزيد"
-    }))
-  } catch (error) {
-    console.error("Error fetching cards data:", error)
-    // Fallback to default cards if API fails
-    cards.value = [
-      {
-        image: "/src/assets/Rectangle 40.png",
-        title: "Event Title 1",
-        description: "Event Description 1",
-        buttonText: "المزيد"
-      },
-      // ... other default cards ...
-    ]
-  }
-})
 
 const slideLeft = () => {
   const slideAmount = (containerWidth.value + 32) / 1.5 // Reduced slide amount

@@ -98,11 +98,14 @@ import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import axios from 'axios';
 
+const BASE_API = 'https://mohammed-bin-alhanafia.com/api'
+const IMAGE_BASE_URL = 'https://mohammed-bin-alhanafia.com/images'
+const DEFAULT_IMAGE = new URL('../assets/download.png', import.meta.url).href
+
 const route = useRoute();
 const teacher = ref(null);
 const loading = ref(true);
 const error = ref(null);
-
 const successRate = ref(0);
 const displayedPercentage = ref(0);
 const circumference = 251.2; // 2 * π * radius (40)
@@ -110,6 +113,10 @@ const circumference = 251.2; // 2 * π * radius (40)
 const dashOffset = computed(() => {
   return circumference - (successRate.value / 100) * circumference;
 });
+
+const getImageUrl = (imgpath) => {
+  return imgpath ? `${IMAGE_BASE_URL}/${imgpath}` : DEFAULT_IMAGE;
+};
 
 const animatePercentage = (targetPercentage) => {
   let start = 0;
@@ -130,33 +137,51 @@ const animatePercentage = (targetPercentage) => {
   requestAnimationFrame(animate);
 };
 
-onMounted(async () => {
-  const teacherId = route.params.id;
+const fetchTeacherData = async (teacherId) => {
+  if (!teacherId) {
+    error.value = 'معرف المدرس غير صالح';
+    loading.value = false;
+    return;
+  }
+
   try {
-    const response = await axios.get(`https://mohammed-bin-alhanafia.com/api/Teacher/${teacherId}`, {
+    const response = await axios.get(`${BASE_API}/Teacher/${teacherId}`, {
       headers: {
-        'Accept': 'application/json'
-      }
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      timeout: 10000
     });
-    
+
+    if (!response.data) {
+      throw new Error('No data received');
+    }
+
     teacher.value = {
-      id: response.data.teacherId,
-      name: response.data.name,
-      subject: response.data.subject,
-      role: response.data.role,
-      image: response.data.image || "/src/assets/download.png",
-      experience: response.data.experience || 'غير محدد' // Add experience if available in API
+      id: response.data.id,
+      name: response.data.name || 'غير محدد',
+      subject: response.data.specialty || 'غير محدد',
+      role: response.data.rank || 'غير محدد',
+      image: getImageUrl(response.data.imgpath),
+      experience: response.data.expeiance || 'غير محدد'
     };
     
-    // Start animation with a default or API-provided success rate
-    animatePercentage(response.data.successRate || 85); // You can adjust the default value
+    animatePercentage(response.data.sucsessRate || 85);
     
   } catch (err) {
-    error.value = 'عذراً، حدث خطأ أثناء تحميل بيانات المعلم';
     console.error('Error fetching teacher details:', err);
+    error.value = err.response?.status === 404 
+      ? 'لم يتم العثور على المدرس'
+      : 'عذراً، حدث خطأ أثناء تحميل بيانات المعلم. يرجى المحاولة مرة أخرى';
+    teacher.value = null;
   } finally {
     loading.value = false;
   }
+};
+
+onMounted(() => {
+  const teacherId = route.params.id;
+  fetchTeacherData(teacherId);
 });
 </script>
 
@@ -192,5 +217,4 @@ circle {
 .wave-border img {
   animation: imageWaveAnimation 4s ease-in-out infinite;
 }
-
 </style>
