@@ -2,8 +2,10 @@
     <div class=" bg-[#FEFAE1] flex font-item">
       <!-- Content Container -->
       <div class="relative z-10 container mx-auto px-4 py-[8rem] flex flex-col justify-center gap-32 items-center">
-        <button class="bg-[#EC8A20] text-white text-2xl px-14 py-4 rounded-full
-        justify-center items-center
+        <button 
+          @click="showAddModal = true"
+          class="bg-[#EC8A20] text-white text-2xl px-14 py-4 rounded-full
+          justify-center items-center
                    transition-all duration-300 hover:scale-110 hover:bg-[#d67b15] hover:shadow-lg">
           إضافة مقال
         </button>
@@ -51,7 +53,7 @@
                   
                   <div class="w-full flex justify-center px-4">
                     <img 
-                      src="../../assets/Rectangle 40.png" 
+                      :src="card.image" 
                       alt="Event Image" 
                       class="w-[90%] sm:w-[100%] sm:rounded-xl h-48 sm:h-20 object-cover rounded-3xl" 
                     />
@@ -96,105 +98,36 @@
       </div>
     </div>
 
-    <!-- Pin Edit Modal -->
-    <div v-if="showPinModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-      <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full mx-4">
-        <h3 class="text-xl font-semibold mb-4 text-center">تعديل المقال المثبت</h3>
-        <form @submit.prevent="confirmPin" class="space-y-4">
-          <!-- Image Preview -->
-          <div class="mb-4">
-            <img 
-              :src="imagePreview || pinForm.image" 
-              alt="Preview" 
-              class="w-full h-48 object-cover rounded-lg mb-2"
-              v-if="imagePreview || pinForm.image"
-            />
-            <!-- Image Input -->
-            <label class="block text-sm font-medium text-gray-700 mb-1">الصورة</label>
-            <input 
-              type="file" 
-              @change="handleImageChange" 
-              accept="image/*"
-              class="w-full p-2 border rounded-lg"
-            >
-          </div>
-          
-          <!-- Existing fields -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">العنوان</label>
-            <input 
-              v-model="pinForm.title" 
-              type="text" 
-              class="w-full p-2 border rounded-lg"
-              required
-            >
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">الوصف</label>
-            <textarea 
-              v-model="pinForm.description" 
-              class="w-full p-2 border rounded-lg"
-              rows="4"
-              required
-            ></textarea>
-          </div>
-          <div class="flex justify-center gap-4">
-            <button 
-              type="submit"
-              class="bg-[#EC8A20] text-white px-6 py-2 rounded-lg hover:bg-[#d67b15]"
-            >
-              حفظ
-            </button>
-            <button 
-              type="button"
-              @click="showPinModal = false"
-              class="bg-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-400"
-            >
-              إلغاء
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+    <NewsFormModal
+      :show="showPinModal"
+      :initial-data="newsItems.find(item => item.id === selectedNewsId)"
+      @close="showPinModal = false"
+      @submit="handlePinSubmit"
+    />
+
+    <NewsFormModal
+      :show="showAddModal"
+      :initial-data="{ title: '', description: '', image: '' }"
+      @close="showAddModal = false"
+      @submit="handleAddSubmit"
+    />
   </template>
   
   <script setup>
-  import { ref } from 'vue';
+  import { ref, onMounted } from 'vue';
   import { useRouter } from 'vue-router';
+  import NewsFormModal from '../../components/newsFormModal.vue';
+  import axios from 'axios';
   
-  const newsItems = ref([
-    {
-      id: 1,
-      title: 'مقال 1',
-      description: 'هذا هو الوصف للمقال الأول',
-      image: '../assets/Rectangle 40.png',
-    },
-    {
-      id: 2,
-      title: 'مقال 2',
-      description: 'هذا هو الوصف للمقال الثاني',
-      image: '../assets/Rectangle 40.png',
-    },
-    {
-      id: 3,
-      title: 'مقال 3',
-      description: 'هذا هو الوصف للمقال الثالث',
-      image: '../assets/Rectangle 40.png',
-    },
-  ]);
-  const loading = ref(false);
+  const newsItems = ref([]);
+  const loading = ref(true);
   const error = ref(null);
   const router = useRouter();
 
   const showDeleteModal = ref(false);
   const showPinModal = ref(false);
   const selectedNewsId = ref(null);
-  const imagePreview = ref(null);
-  const pinForm = ref({
-    title: '',
-    description: '',
-    image: ''
-  });
+  const showAddModal = ref(false);
 
   const deleteNews = (id) => {
     selectedNewsId.value = id;
@@ -204,39 +137,77 @@
   const pinNews = (id) => {
     selectedNewsId.value = id;
     const news = newsItems.value.find(item => item.id === id);
-    pinForm.value = {
-      title: news.title,
-      description: news.description,
-      image: news.image
-    };
-    imagePreview.value = null;
     showPinModal.value = true;
   };
 
-  const confirmDelete = () => {
-    console.log('Deleting news with ID:', selectedNewsId.value);
-    showDeleteModal.value = false;
-  };
-
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        imagePreview.value = e.target.result;
-      };
-      reader.readAsDataURL(file);
+  const confirmDelete = async () => {
+    try {
+      await axios.delete(`https://mohammed-bin-alhanafia.com/api/Content/${selectedNewsId.value}`);
+      await fetchNews();
+    } catch (err) {
+      error.value = 'Failed to delete article';
+      console.error(err);
+    } finally {
+      showDeleteModal.value = false;
     }
   };
 
-  const confirmPin = () => {
-    console.log('Updating pinned news:', {
-      id: selectedNewsId.value,
-      ...pinForm.value,
-      image: imagePreview.value || pinForm.value.image
-    });
-    showPinModal.value = false;
+  const handlePinSubmit = async (formData) => {
+    try {
+      await axios.put(`https://mohammed-bin-alhanafia.com/api/Content/${selectedNewsId.value}`, {
+        title: formData.title,
+        discription: formData.description,
+        imgpath: formData.image,
+        date: new Date().toISOString()
+      });
+      await fetchNews();
+    } catch (err) {
+      error.value = 'Failed to update article';
+      console.error(err);
+    } finally {
+      showPinModal.value = false;
+    }
   };
+
+  const handleAddSubmit = async (formData) => {
+    try {
+      await axios.post('https://mohammed-bin-alhanafia.com/api/Content', {
+        title: formData.title,
+        discription: formData.description,
+        imgpath: formData.image,
+        date: new Date().toISOString()
+      });
+      await fetchNews();
+    } catch (err) {
+      error.value = 'Failed to add article';
+      console.error(err);
+    } finally {
+      showAddModal.value = false;
+    }
+  };
+
+  const fetchNews = async () => {
+    loading.value = true;
+    try {
+      const { data } = await axios.get('https://mohammed-bin-alhanafia.com/api/Content/AllContent');
+      newsItems.value = data.map(item => ({
+        id: item.id,
+        title: item.title,
+        description: item.discription,
+        image: item.imgpath || '../../assets/Rectangle 40.png',
+        date: item.date
+      }));
+    } catch (err) {
+      error.value = 'Failed to load news articles';
+      console.error(err);
+    } finally {
+      loading.value = false;
+    }
+  };
+
+  onMounted(() => {
+    fetchNews();
+  });
   </script>
   
   <style scoped>
