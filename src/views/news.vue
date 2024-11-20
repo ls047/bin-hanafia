@@ -55,7 +55,7 @@
                   <p class="text-sm w-[90%] mx-auto sm:w-[90%] sm:text-xs text-gray-600 mb-4
                     break-words whitespace-pre-wrap">{{ card.description }}</p>
                   <button 
-                    @click="router.push(`/news/${card.id}`)"
+                    @click="navigateToNewsDetail(card.id)"
                     class="bg-[#C98142] text-white px-14 py-3 sm:px-4 sm:py-1
                     rounded-full  hover:transition-colors duration-700 sm:rounded-2xl text-2xl sm:text-sm hover:scale-105"
                   >
@@ -80,6 +80,13 @@ const newsItems = ref([]);
 const loading = ref(true);
 const error = ref(null);
 const router = useRouter();
+
+const navigateToNewsDetail = (id) => {
+  router.push({
+    name: 'news-special',  // Make sure this matches your route name in router configuration
+    params: { id: id }
+  });
+};
 
 onMounted(async () => {
   try {

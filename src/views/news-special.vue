@@ -72,7 +72,9 @@ const error = ref(null);
 onMounted(async () => {
   const newsId = route.params.id;
   try {
-    const response = await axios.get(`${BASE_API}/Content/GetById/${newsId}`);
+    const response = await axios.get(`${BASE_API}/Content/GetById`, {
+      id: newsId
+    });
     newsItem.value = {
       title: response.data.title,
       description: response.data.discription,
