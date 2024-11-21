@@ -126,6 +126,7 @@ const showDeleteModal = ref(false)
 const studentToDelete = ref(null)
 const showAddModal = ref(false)
 const showDeletedModal = ref(false)
+const allStudents = ref([])
 
 const uniqueClasses = computed(() => {
   return [...new Set(allStudents.value.map(student => student.classBranch))]
@@ -135,6 +136,7 @@ const fetchStudents = async () => {
   try {
     const response = await axios.get(`${BASE_API}/Student/AllStudents`)
     students.value = response.data
+    allStudents.value = response.data
   } catch (error) {
     console.error('Error fetching students:', error)
   }
@@ -142,7 +144,6 @@ const fetchStudents = async () => {
 
 const editStudent = async (student) => {
   try {
-    await axios.put(`${BASE_API}/Student/${student.id}`, {
     await axios.put(`${BASE_API}/Student/${student.id}`, {
       id: student.id,
       name: student.name,
