@@ -60,12 +60,13 @@
               <td class="px-6 py-4">{{ student.classBranch }}</td>
               <td class="px-6 py-4">{{ student.absents }}</td>
               <td class="px-6 py-4">
-                <label class="relative inline-flex items-center cursor-pointer">
+                <label class="relative inline-flex items-center cursor-pointer" :class="{ 'opacity-50': loadingNerdStatus.has(student.id) }">
                   <input 
                     type="checkbox" 
                     v-model="student.isNerd" 
                     class="sr-only peer"
                     @change="() => editStudent(student)"
+                    :disabled="loadingNerdStatus.has(student.id)"
                   >
                   <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 
                     peer-focus:ring-[#EC8A20]/30 rounded-full peer dark:bg-gray-700 
@@ -127,6 +128,8 @@ const studentToDelete = ref(null)
 const showAddModal = ref(false)
 const showDeletedModal = ref(false)
 const allStudents = ref([])
+const loadingNerdStatus = ref(new Set())
+const selectedClass = ref('')
 
 const uniqueClasses = computed(() => {
   return [...new Set(allStudents.value.map(student => student.classBranch))]
@@ -144,6 +147,7 @@ const fetchStudents = async () => {
 
 const editStudent = async (student) => {
   try {
+    loadingNerdStatus.value.add(student.id)
     await axios.put(`${BASE_API}/Student/${student.id}`, {
       id: student.id,
       name: student.name,
@@ -156,6 +160,8 @@ const editStudent = async (student) => {
     console.error('Error updating student:', error)
     // Revert the checkbox if the update fails
     student.isNerd = !student.isNerd
+  } finally {
+    loadingNerdStatus.value.delete(student.id)
   }
 }
 

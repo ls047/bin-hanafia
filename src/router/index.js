@@ -5,6 +5,7 @@ import SpecialStudents from '../views/special-students.vue'
 import News from '../views/news.vue'
 import TeachersDash from '../views/dashboard/teachers-dash.vue'
 import Form from '../views/form.vue'
+import AdminDash from '../views/dashboard/adminDash.vue'
 const routes = [
   {
     path: '/',
@@ -77,6 +78,14 @@ const routes = [
     meta: {
       requiresAuth: true,
       role: 'student'
+    }
+  },
+  {
+    path: '/dashboard/admin',
+    name: 'AdminDash',
+    component: AdminDash,
+    meta: {
+      requiresAuth: true
     }
   }
 ]
