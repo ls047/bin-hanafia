@@ -11,10 +11,10 @@
         مقالات
       </router-link>
     </div>
-    <button class="bg-[#EC8A20] text-white text-2xl px-14 py-4 rounded-full
+    <router-link to="/dashboard/students" class="bg-[#EC8A20] text-white text-2xl px-14 py-4 rounded-full
                    transition-all duration-300 hover:scale-110 hover:bg-[#d67b15] hover:shadow-lg">
       الطلبة
-    </button>
+    </router-link>
   </div>
 </template>
 

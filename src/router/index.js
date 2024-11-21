@@ -4,6 +4,7 @@ import Teachers from '../views/teachers.vue'
 import SpecialStudents from '../views/special-students.vue'
 import News from '../views/news.vue'
 import TeachersDash from '../views/dashboard/teachers-dash.vue'
+import Form from '../views/form.vue'
 const routes = [
   {
     path: '/',
@@ -26,6 +27,11 @@ const routes = [
     component: () => import('../views/teachers-profile.vue')
   },
   {
+    path: '/form',
+    name: 'Form',
+    component: () => import('../views/form.vue')
+  },
+  {
     path: '/:pathMatch(.*)*',
     redirect: '/'
   },
@@ -36,7 +42,7 @@ const routes = [
   },
   {
     path: '/news/:id',
-    name: 'NewsSpecial',
+    name: 'news-special',
     component: () => import('../views/news-special.vue')
   },
   {
@@ -53,6 +59,11 @@ const routes = [
     path: '/dashboard/news',
     name: 'NewsDash',
     component: () => import('../views/dashboard/newsDash.vue')
+  },
+  {
+    path: '/dashboard/students',
+    name: 'StudentsDash',
+    component: () => import('../views/dashboard/studentDash.vue')
   },
   {
     path: '/login',

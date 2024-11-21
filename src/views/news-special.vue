@@ -58,6 +58,9 @@ import axios from 'axios';
 const BASE_API = 'https://mohammed-bin-alhanafia.com/api'
 const IMAGE_BASE_URL = 'https://mohammed-bin-alhanafia.com/images'
 
+const BASE_API = 'https://mohammed-bin-alhanafia.com/api'
+const IMAGE_BASE_URL = 'https://mohammed-bin-alhanafia.com/images'
+
 const route = useRoute();
 const router = useRouter();
 const newsItem = ref({
@@ -76,6 +79,7 @@ onMounted(async () => {
     newsItem.value = {
       title: response.data.title,
       description: response.data.discription,
+      image: response.data.imgpath ? `${IMAGE_BASE_URL}/${response.data.imgpath}` : null,
       image: response.data.imgpath ? `${IMAGE_BASE_URL}/${response.data.imgpath}` : null,
       date: new Date(response.data.date).toLocaleDateString('ar-SA')
     };
