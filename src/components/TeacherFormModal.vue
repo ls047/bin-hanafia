@@ -196,13 +196,16 @@ const triggerFileInput = () => {
 }
 
 const handleImageChange = (event) => {
-  formData.value.image = event.target.files[0]
+  const file = event.target.files[0]
+  if (file) {
+    formData.value.image = file
+    formData.value.imagePreview = URL.createObjectURL(file)
+  }
 }
 
 const handleSubmit = () => {
   const formDataToSubmit = new FormData()
   
-  // Add ID to formData when editing
   if (props.isEditing) {
     formDataToSubmit.append('id', props.teacherData.id)
   }
@@ -214,7 +217,7 @@ const handleSubmit = () => {
   formDataToSubmit.append('rank', formData.value.rank)
   
   if (formData.value.image) {
-    formDataToSubmit.append('image', formData.value.image)
+    formDataToSubmit.append('Img', formData.value.image)
   }
   
   emit('submit', formDataToSubmit)

@@ -41,11 +41,12 @@
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 
+const BASE_API = 'https://mohammed-bin-alhanafia.com/api'
 const students = ref([])
 
 const fetchStudents = async () => {
   try {
-    const response = await axios.get('https://mohammed-bin-alhanafia.com/api/Student/AllStudents')
+    const response = await axios.get(`${BASE_API}/Student/AllStudents`)
     students.value = response.data
   } catch (error) {
     console.error('Error fetching students:', error)
@@ -54,7 +55,7 @@ const fetchStudents = async () => {
 
 const editStudent = async (student) => {
   try {
-    await axios.put(`https://mohammed-bin-alhanafia.com/api/Student/${student.id}`, {
+    await axios.put(`${BASE_API}/Student/${student.id}`, {
       id: student.id,
       name: student.name,
       classBranch: student.classBranch,

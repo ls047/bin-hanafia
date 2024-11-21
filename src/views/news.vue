@@ -73,6 +73,9 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 
+const BASE_API = 'https://mohammed-bin-alhanafia.com/api'
+const IMAGE_BASE_URL = 'https://mohammed-bin-alhanafia.com/images'
+
 const newsItems = ref([]);
 const loading = ref(true);
 const error = ref(null);
@@ -80,12 +83,14 @@ const router = useRouter();
 
 onMounted(async () => {
   try {
-    const response = await axios.get('https://mohammed-bin-alhanafia.com/api/Content/AllContent');
+    const response = await axios.get(`${BASE_API}/Content/AllContent`);
     newsItems.value = response.data.map(item => ({
       id: item.id,
       title: item.title,
       description: item.description,
-      image: item.image || "../assets/Rectangle 40.png", // fallback image if none provided
+      image: item.imgpath 
+        ? `${IMAGE_BASE_URL}/${item.imgpath}`
+        : new URL('../assets/Rectangle 40.png', import.meta.url).href,
     }));
   } catch (err) {
     error.value = 'عذراً، حدث خطأ أثناء تحميل الأخبار';

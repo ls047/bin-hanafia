@@ -17,7 +17,10 @@
         لديهم
       </p>
     </div>
-    <div class="mt-20 pb-44 relative grid grid-cols-1 gap-8 p-8 md:grid-cols-2 lg:grid-cols-3 gap-y-36 place-items-center">
+    <div 
+      class="mt-20 pb-44 relative grid grid-cols-1 gap-8 p-8 md:grid-cols-2 lg:grid-cols-3 gap-y-36 place-items-center"
+      v-if="!loading && !error"
+    >
       <router-link
         v-for="(teacher, index) in sortedTeachers"
         :key="teacher.id"
@@ -41,9 +44,10 @@
             :alt="teacher.name"
             class="h-full w-full !rounded-b-none object-cover"
             :class="{
-              'rounded-r-[168px]': index < 3 && index % 3 === 0,
-              'rounded-t-[168px]': index < 3 && index % 3 === 1,
-              'rounded-l-[168px]': index < 3 && index % 3 === 2
+              'rounded-t-[168px]': index < 3 && index % 3 === 0,
+              'rounded-r-[168px]': index < 3 && index % 3 === 1,
+              'rounded-l-[168px]': index < 3 && index % 3 === 2,
+              'rounded-t-[168px]': index >= 3
             }"
           />
           <div class="absolute bottom-0 h-1/4 w-full bg-[#CE8849] text-center text-white">
@@ -55,6 +59,16 @@
         </div>
       </router-link>
     </div>
+    
+    <!-- Loading State -->
+    <div v-if="loading" class="text-center py-8">
+      <p class="text-xl">جاري تحميل البيانات...</p>
+    </div>
+
+    <!-- Error State -->
+    <div v-if="error" class="text-center py-8 text-red-500">
+      <p class="text-xl">{{ error }}</p>
+    </div>
   </div>
 </template>
 
@@ -63,23 +77,32 @@
 import { ref, computed, onMounted } from 'vue';
 import axios from 'axios';
 
+const BASE_API = 'https://mohammed-bin-alhanafia.com/api'
+const IMAGE_BASE_URL = 'https://mohammed-bin-alhanafia.com/images'
+const DEFAULT_IMAGE = new URL('../assets/download.png', import.meta.url).href
+
 const teachers = ref([]);
 const loading = ref(true);
 const error = ref(null);
 
-onMounted(async () => {
+const getImageUrl = (imgpath) => {
+  return imgpath ? `${IMAGE_BASE_URL}/${imgpath}` : DEFAULT_IMAGE;
+};
+
+const fetchTeachers = async () => {
   try {
-    const response = await axios.get('https://mohammed-bin-alhanafia.com/api/Teacher/AllTeachers', {
+    const response = await axios.get(`${BASE_API}/Teacher/AllTeachers`, {
       headers: {
         'Accept': 'application/json'
       }
     });
+    
     teachers.value = response.data.map(teacher => ({
       id: teacher.id,
       name: teacher.name,
       subject: teacher.specialty,
       role: teacher.rank,
-        image: `images/${teacher.imgpath}` || "/src/assets/download.png",
+      image: getImageUrl(teacher.imgpath)
     }));
   } catch (err) {
     error.value = 'عذراً، حدث خطأ أثناء تحميل بيانات المعلمين';
@@ -87,7 +110,7 @@ onMounted(async () => {
   } finally {
     loading.value = false;
   }
-});
+};
 
 // Sort teachers by role
 const sortedTeachers = computed(() => {
@@ -101,4 +124,6 @@ const sortedTeachers = computed(() => {
     ...regularTeachers
   ].filter(Boolean);
 });
+
+onMounted(fetchTeachers);
 </script>

@@ -103,13 +103,16 @@
 import { ref, onMounted, computed } from 'vue';
 import axios from 'axios';
 
+const BASE_API = 'https://mohammed-bin-alhanafia.com/api'
+const IMAGE_BASE_URL = 'https://mohammed-bin-alhanafia.com/images'
+
 const students = ref([]);
 const loading = ref(true);
 const error = ref(null);
 
 onMounted(async () => {
   try {
-    const response = await axios.get('https://mohammed-bin-alhanafia.com/api/Student/GetNerds', {
+    const response = await axios.get(`${BASE_API}/Student/GetNerds`, {
       headers: {
         'Accept': 'application/json'
       }
@@ -120,7 +123,9 @@ onMounted(async () => {
       name: student.name,
       fullname: student.fullName,
       grade: student.grade,
-      image: student.image || "/src/assets/student.jpg", // fallback image
+      image: student.image 
+        ? `${IMAGE_BASE_URL}/${student.image}`
+        : new URL('../assets/student.jpg', import.meta.url).href,
       average: student.average
     }));
   } catch (err) {
@@ -132,6 +137,6 @@ onMounted(async () => {
 });
 
 const sortedStudents = computed(() => {
-  return [...students.value].sort((a, b) => b.average - a.average); // Sort by average in descending order
+  return [...students.value].sort((a, b) => b.average - a.average);
 });
 </script>
